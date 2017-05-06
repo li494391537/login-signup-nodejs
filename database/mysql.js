@@ -8,11 +8,12 @@ var pool = mysql.createPool({
     port: '3306'
 });
 
-exports.login = (sqlparams, callback) => {
+exports.signin = (sqlparams, callback) => {
     var sql = 'SELECT * FROM user where username = ? and password = ?';
     pool.getConnection((err, connection) => {
-        if (err)
+        if (err) {
             console.log('[pool error] : ' + err.message);
+        } else {
         connection.query(sql, sqlparams, (err, result) => {
             if (err) {
                 console.log('[select error] : ' + err.message);
@@ -21,5 +22,24 @@ exports.login = (sqlparams, callback) => {
             };
         });
         connection.release();
+        }
     });
 };
+
+exports.signup = (sqlparams, callback) => {
+    var sql = '';
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.log('[pool error] : ' + err.message);
+        } else {
+        connection.query(sql, sqlparams, (err, result) => {
+            if (err) {
+                console.log('[select error] : ' + err.message);
+            } else {
+                callback(result);
+            };
+        });
+        connection.release();
+        }
+    });
+}

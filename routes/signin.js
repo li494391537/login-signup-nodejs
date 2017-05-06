@@ -8,9 +8,12 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   var sqlparams = [req.body.username, req.body.password];
-  mysql.login(sqlparams, (result) => {
-    console.log(JSON.stringify(result));
-    res.send(JSON.stringify(result));
+  mysql.signin(sqlparams, (result) => {
+    if (result.length == 0) {
+      res.send('用户名或密码错误');
+    } else {
+      res.send('Hello ' + result[0].username + '!');
+    };
   });
 });
 
