@@ -1,14 +1,14 @@
 {
-  "name": "login-signup-nodejs",
+  "name": "signin-signup-nodejs",
   "version": "1.0.0",
-  "description": "A node.js project about login and signup.",
-  "main": "index.js",
+  "description": "A node.js project about signin and signup.",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/li494391537/login-signup-nodejs.git"
+    "url": "git+https://github.com/li494391537/signin-signup-nodejs.git"
   },
   "keywords": [
     "node.js"
@@ -16,9 +16,9 @@
   "author": "lirui&hanzhichen&zhaoheng",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/li494391537/login-signup-nodejs/issues"
+    "url": "https://github.com/li494391537/signin-signup-nodejs/issues"
   },
-  "homepage": "https://github.com/li494391537/login-signup-nodejs#readme",
+  "homepage": "https://github.com/li494391537/signin-signup-nodejs#readme",
   "dependencies": {
     "express": "latest",
     "mysql": "latest"

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+</head>
+
+<body>
+    <div style="text-align:center;">
+        <form action="tryLogin" method="post">
+            <div>
+                用户名：
+                <input type="text" name="username" width="10 em" height="1.5 em" placeholder="请输入用户名" />
+            </div>
+            <div>
+                密&nbsp;&nbsp;&nbsp;码：
+                <input type="password" name="password" width="10 em" height="1.5 em" placeholder="请输入密码" />
+            </div>
+            <div>
+                验证码：
+                <input type="text" name="checkcode" height="1.5 em" placeholder="不区分大小写">
+                <img src="#" />
+            </div>
+            <div>
+                <a href="#">忘记密码</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#">修改密码</a>
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="register">注册</a>
+            </div>
+            <input type="hidden" name="handle" value="login" />
+            <div>
+                <input type="submit" value="login" />
+                
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
