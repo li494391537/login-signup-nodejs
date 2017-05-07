@@ -1,4 +1,5 @@
-# signin-signup-nodejs
+#
+signin - signup - nodejs
 
 ## A node.js project about signin and signup.
 
@@ -21,24 +22,28 @@ create table user(
     bantime varchar(40),
     role varchar(2) not null default 1
 );
-``` 
+```
 
-然后创建init.js：
+然后创建init.js： 
 ``` 
 var mysql = require('mysql');
 var crypto = require('crypto');
 
-var pool = mysql.createPool({
+var mysql = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'root',
+    password: 'toor',
     database: 'test',
     port: '3306'
 });
 
-var a = () => {
+
+(() => {
+    mysql.connect();
     crypto.randomBytes(32, function (err, salt1) {
-        if (err) { throw err; }
+        if (err) {
+            throw err;
+        }
         salt1 = salt1.toString('hex');
         console.log(salt1);
         var content = '123';
@@ -48,7 +53,9 @@ var a = () => {
         var d = sha256.digest('hex');
 
         crypto.randomBytes(32, (err, salt2) => {
-            if (err) { throw err; }
+            if (err) {
+                throw err;
+            }
             salt2 = salt2.toString('hex');
             console.log(salt2);
             var content = d;
@@ -57,26 +64,22 @@ var a = () => {
             sha256.update(content);
             var dd = sha256.digest('hex');
 
-            sqlparams = ['admin', dd, salt1, salt2, 'email', 'regtime'];
+            sqlparams = ['admin1', dd, salt1, salt2, 'email1', 'regtime'];
             var sql = 'INSERT INTO user (username, password, salt1, salt2, email, regtime) VALUES (?, ?, ?, ?, ?, ?)';
-            pool.getConnection((err, connection) => {
+
+            mysql.query(sql, sqlparams, (err, result) => {
                 if (err) {
-                    console.log('[pool error] : ' + err.message);
-                } else {
-                    connection.query(sql, sqlparams, (err, result) => {
-                        if (err) {
-                            console.log('[select error] : ' + err.message);
-                        } else {
-                        };
-                    });
-                    connection.release();
-                }
+                    console.log('[select error] : ' + err.message);
+                } else {};
+                mysql.end();
             });
         });
     })
-};
+})();
 
-a();
 ```
 然后运行
-`` node init.js
+
+```
+node init.js
+```
