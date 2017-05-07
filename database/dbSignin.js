@@ -11,7 +11,7 @@ module.exports = function (sqlparams, callback) {
                 if (err) {
                     console.log('[select error] : ' + err.message);
                 } else {
-                    if (result) {
+                    if (result.length) {
                         var dd = result[0].password;
                         var salt1 = result[0].salt1;
                         var salt2 = result[0].salt2;
@@ -47,11 +47,13 @@ module.exports = function (sqlparams, callback) {
                             result = null;
                             callback(result);
                         }
+                    } else {
+                        result = null;
+                        callback(result);
                     }
-
                 };
+                connection.release();
             });
-            connection.release();
         }
     });
 };

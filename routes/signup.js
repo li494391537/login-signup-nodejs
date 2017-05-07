@@ -16,7 +16,13 @@ router.post('/', (req, res, next) => {
     var sqlparams = [username, email];
     existsUser(sqlparams, (result) => {
         if (result > 0) {
-            res.send('用户名或邮箱已被注册');
+            res.render('error', {
+                'message': '用户名或邮箱已被注册！',
+                'error': {
+                    'stack': 'undefined',
+                    'status': 'undefined'
+                }
+            });
         } else {
             sqlparams = [username, password, email];
             signup(sqlparams, (result) => {

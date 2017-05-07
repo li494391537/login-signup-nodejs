@@ -2,18 +2,24 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', (req, res, next) => {
-    if (req.cookies.uid && req.cookies.username) {
+    if (req.cookies.session_id) {
         res.render('user', {
-            title: req.cookies.username
+            title: req.cookies.username,
+            session_id: req.cookies.session_id
         });
+    } else {
+        next('route');
     }
 });
 
 router.get('/:uid', (req, res, next) => {
-    if (req.cookies.uid && req.cookies.username && req.params.uid == req.cookies.uid) {
+    if (req.cookies.session_id) {
         res.render('user', {
-            title: req.cookies.username
+            title: req.cookies.username,
+            session_id: req.cookies.session_id
         });
+    } else {
+        next('route');
     }
 });
 

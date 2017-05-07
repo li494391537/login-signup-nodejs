@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     var sqlparams = [req.body.username, req.body.password];
+
     signin(sqlparams, (result) => {
         if (result) {
             res.cookie('username', result.username, {
@@ -21,7 +22,16 @@ router.post('/', (req, res, next) => {
             });
             res.redirect('/');
         } else {
-            res.send('用户名或密码错误');
+            res.clearCookie('uid');
+            res.clearCookie('username');
+            res.clearCookie('session_id');
+            res.render('error', {
+                'message': '用户名或密码错误！',
+                'error': {
+                    'stack': 'undefined',
+                    'status': 'undefined'
+                }
+            });
         };
     });
 });
