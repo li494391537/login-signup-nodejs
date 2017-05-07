@@ -1,16 +1,16 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 
 router.get('/', (req, res, next) => {
     if (req.cookies.session_id) {
         res.render('user', {
             title: req.cookies.username,
             session_id: req.cookies.session_id
-        });
+        })
     } else {
-        next('route');
+        next('route')
     }
-});
+})
 
 router.get('/:uid', (req, res, next) => {
     if (req.cookies.session_id) {
@@ -19,8 +19,8 @@ router.get('/:uid', (req, res, next) => {
             session_id: req.cookies.session_id
         });
     } else {
-        next('route');
+        next('route')
     }
-});
+})
 
-module.exports = router;
+module.exports = router

@@ -1,14 +1,14 @@
-var pool = require('./dbHandle');
+var pool = require('./dbHandle')
 
 module.exports = function (sqlparams, callback) {
     pool.getConnection((err, conn) => {
-        var sql = 'SELECT * FROM users where uid = ?';
+        var sql = 'SELECT * FROM users where uid = ?'
         if (err) {
-            console.log('[pool error] : ' + err.message);
+            console.log('[pool error] : ' + err.message)
         } else {
             conn.query(sql, sqlparams, (err, result) => {
                 if (err) {
-                    console.log('[select error] : ' + err.message);
+                    console.log('[select error] : ' + err.message)
                 } else {
                     if (result) {
                         callback({
@@ -18,10 +18,10 @@ module.exports = function (sqlparams, callback) {
                             'regtime': result[0].regtime,
                             'bantime': result[0].bantime,
                             'role': result[0].role
-                        });
+                        })
                     }
                 }
-                conn.release();
+                conn.release()
             })
         }
     })
