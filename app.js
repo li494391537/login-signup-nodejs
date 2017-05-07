@@ -10,6 +10,8 @@ var fileStreamRotator = require('file-stream-rotator');
 var index = require('./routes/index');
 var signin = require('./routes/signin');
 var signup = require('./routes/signup');
+var admin = require('./routes/admin');
+var user = require('./routes/user');
 
 var app = express();
 
@@ -45,6 +47,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/signin', signin);
 app.use('/signup', signup);
+app.use('/admin', admin);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
