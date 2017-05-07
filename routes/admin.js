@@ -1,4 +1,3 @@
-var mysql = require('../database/mysql');
 var express = require('express');
 var router = express.Router();
 
@@ -9,6 +8,19 @@ router.get('/', (req, res, next) => {
     res.cookie('isVisit', 1);
     res.send("欢迎第一次访问");
   }
+});
+
+
+router.get('/test', function (req, res, next) {
+  if (req.cookies.username) {
+    res.render('index', {
+      title: 'test'
+    });
+  } else {
+    res.render('index', {
+      title: 'test'
+    });
+  };
 });
 
 module.exports = router;

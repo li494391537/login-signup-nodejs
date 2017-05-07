@@ -1,4 +1,3 @@
-var mysql = require('../database/mysql');
 var express = require('express');
 var router = express.Router();
 
@@ -10,8 +9,8 @@ router.get('/', (req, res, next) => {
     }
 });
 
-router.get('/:id', (req, res, next) => {
-    if (req.cookies.uid && req.cookies.username && req.params.id == req.cookies.uid) {
+router.get('/:uid', (req, res, next) => {
+    if (req.cookies.uid && req.cookies.username && req.params.uid == req.cookies.uid) {
         res.render('user', {
             title: req.cookies.username
         });
