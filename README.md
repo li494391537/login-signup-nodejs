@@ -2,6 +2,7 @@
 
 ## A node.js project about signin and signup.
 
+test
 
 第一次打开使用项目请运行以下SQL语句:
 ```
