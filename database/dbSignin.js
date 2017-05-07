@@ -1,9 +1,9 @@
 var pool = require('./dbHandle');
 var crypto = require('crypto');
 
-exports.signin = (sqlparams, callback) => {
-    var sql = 'SELECT * FROM users where username = ?';
+module.exports = function (sqlparams, callback) {
     pool.getConnection((err, connection) => {
+        var sql = 'SELECT * FROM users where username = ?';
         if (err) {
             console.log('[pool error] : ' + err.message);
         } else {
@@ -26,22 +26,32 @@ exports.signin = (sqlparams, callback) => {
                         sha256.update(d1);
                         var d2 = sha256.digest('hex');
 
-                        if (dd === d2) {
-                            result = {
-                                'uid': result[0].uid,
-                                'username': result[0].username
-                            };
-                        }
-                        else
-                        {
+                        if (dd == d2) {
+                            crypto.randomBytes(32, function (err, session_id) {
+                                session_id = session_id.toString('hex');
+                                var sql = 'UPDATE users SET cookie=? WHERE uid=?'
+                                connection.query(sql, [session_id, result[0].uid], (err, res) => {
+                                    if (err) {
+                                        console.log('[select error] : ' + err.message);
+                                    } else {
+                                        result = {
+                                            'uid': result[0].uid,
+                                            'username': result[0].username,
+                                            'session_id': session_id
+                                        };
+                                        callback(result);
+                                    };
+                                })
+                            })
+                        } else {
                             result = null;
+                            callback(result);
                         }
                     }
-                    callback(result);
+
                 };
             });
             connection.release();
         }
     });
 };
-

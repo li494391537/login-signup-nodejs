@@ -1,27 +1,11 @@
 var pool = require('./dbHandle');
 var crypto = require('crypto');
 
-exports.existsUser = (sqlparams, callback) => {
-    var sql = 'SELECT COUNT(*) FROM users WHERE username = ?';
-    pool.getConnection((err, connection) => {
+module.exports  = function (sqlparams, callback) {
+    crypto.randomBytes(32, function (err, salt1) {
         if (err) {
-            console.log('[pool error] : ' + err.message);
-        } else {
-            connection.query(sql, sqlparams, (err, result) => {
-                if (err) {
-                    console.log('[select error] : ' + err.message);
-                } else {
-                    callback(result);
-                };
-            });
-            connection.release();
+            throw err;
         }
-    });
-}
-
-exports.signup = function (sqlparams, callback) {
-    crypto.randomBytes(64, function (err, salt1) {
-        if (err) { throw err; }
         salt1 = salt1.toString('hex');
         var content = sqlparams[1];
         var sha256 = crypto.createHash('sha256');
@@ -29,8 +13,10 @@ exports.signup = function (sqlparams, callback) {
         sha256.update(content);
         var d = sha256.digest('hex');
 
-        crypto.randomBytes(64, (err, salt2) => {
-            if (err) { throw err; }
+        crypto.randomBytes(32, (err, salt2) => {
+            if (err) {
+                throw err;
+            }
             salt2 = salt2.toString('hex');
             var content = d;
             sha256 = crypto.createHash('sha256');
@@ -56,7 +42,7 @@ exports.signup = function (sqlparams, callback) {
                     (parseInt(time % 60) < 10 ? '0' + parseInt(time % 60) : parseInt(time % 60));
             })();
 
-            sqlparams = [sqlparams[0], dd, salt1, salt2, 'email', regtime];
+            sqlparams = [sqlparams[0], dd, salt1, salt2, sqlparams[2], regtime];
             var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime) VALUES (?, ?, ?, ?, ?, ?)';
             pool.getConnection((err, connection) => {
                 if (err) {
@@ -74,9 +60,4 @@ exports.signup = function (sqlparams, callback) {
             });
         });
     })
-
-
-
-
-
 }

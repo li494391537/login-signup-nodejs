@@ -1,4 +1,5 @@
-var mysql = require('../database/dbSignup');
+var signup = require('../database/dbSignup');
+var existsUser = require('../database/dbExistsUser');
 var express = require('express');
 
 var router = express.Router();
@@ -12,18 +13,14 @@ router.post('/', (req, res, next) => {
     var password = req.body.password;
     var email = req.body.email;
 
-    var sqlparams = username;
-    mysql.existsUser(sqlparams, (result) => {
+    var sqlparams = [username, email];
+    existsUser(sqlparams, (result) => {
         if (result > 0) {
-            res.send('用户名已被注册');
+            res.send('用户名或邮箱已被注册');
         } else {
-            sqlparams = [username, password, email, 'regtime'];
-            mysql.signup(sqlparams, (result) => {
-                if (result.length == 0) {
-                    res.send('用户名已被注册');
-                } else {
-                    res.redirect("/signin");
-                };
+            sqlparams = [username, password, email];
+            signup(sqlparams, (result) => {
+                res.redirect("/signin");
             });
         };
     });
