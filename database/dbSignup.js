@@ -2,7 +2,7 @@ var pool = require('./dbHandle');
 var crypto = require('crypto');
 
 exports.existsUser = (sqlparams, callback) => {
-    var sql = 'SELECT COUNT(*) FROM user WHERE username = ?';
+    var sql = 'SELECT COUNT(*) FROM users WHERE username = ?';
     pool.getConnection((err, connection) => {
         if (err) {
             console.log('[pool error] : ' + err.message);
@@ -38,8 +38,26 @@ exports.signup = function (sqlparams, callback) {
             sha256.update(content);
             var dd = sha256.digest('hex');
 
-            sqlparams = [sqlparams[0], dd, salt1, salt2, 'email', 'regtime'];
-            var sql = 'INSERT INTO user (username, password, salt1, salt2, email, regtime) VALUES (?, ?, ?, ?, ?, ?)';
+            var regtime = (() => {
+                var date = new Date();
+                var time = date.getTime();
+                date = new Date(time)
+                time = parseInt(time / 1000);
+                return date.getFullYear() +
+                    '-' +
+                    (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+                    '-' +
+                    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+                    ' ' +
+                    (parseInt(time / 60 / 60 % 24) < 10 ? '0' + parseInt(time / 60 / 60 % 24) : parseInt(time / 60 / 60 % 24)) +
+                    ':' +
+                    (parseInt(time / 60 % 60) < 10 ? '0' + parseInt(time / 60 % 60) : parseInt(time / 60 % 60)) +
+                    ':' +
+                    (parseInt(time % 60) < 10 ? '0' + parseInt(time % 60) : parseInt(time % 60));
+            })();
+
+            sqlparams = [sqlparams[0], dd, salt1, salt2, 'email', regtime];
+            var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime) VALUES (?, ?, ?, ?, ?, ?)';
             pool.getConnection((err, connection) => {
                 if (err) {
                     console.log('[pool error] : ' + err.message);

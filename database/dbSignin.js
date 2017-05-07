@@ -2,7 +2,7 @@ var pool = require('./dbHandle');
 var crypto = require('crypto');
 
 exports.signin = (sqlparams, callback) => {
-    var sql = 'SELECT * FROM user where username = ?';
+    var sql = 'SELECT * FROM users where username = ?';
     pool.getConnection((err, connection) => {
         if (err) {
             console.log('[pool error] : ' + err.message);

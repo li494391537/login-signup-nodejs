@@ -12,7 +12,7 @@ router.post('/', (req, res, next) => {
         if (result) {
             res.cookie('username', result.username);
             res.cookie('uid', result.uid);
-            res.redirect('/user/' + result.uid);
+            res.redirect('/');
         } else {
             res.send('用户名或密码错误');
         };

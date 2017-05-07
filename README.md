@@ -10,16 +10,20 @@ show databases;
 
 use test;
 
-create table user(
+drop table users;
+
+create table users(
     uid int primary key auto_increment,
     username varchar(40) unique not null,
     password varchar(64) not null,
-    salt1 varchar(65) not null,
-    salt2 varchar(65) not null,
+    salt1 varchar(64) not null,
+    salt2 varchar(64) not null,
     email varchar(40) unique not null,
     regtime varchar(40) not null,
     bantime varchar(40),
-    role varchar(2) not null default 1
+    cookie varchar(64),
+    cookiestart bigint,
+    role tinyint not null default 0
 );
 ```
 
@@ -45,7 +49,7 @@ var mysql = mysql.createConnection({
         }
         salt1 = salt1.toString('hex');
         console.log(salt1);
-        var content = '123';
+        var content = 'admin';
         var sha256 = crypto.createHash('sha256');
         sha256.update(salt1);
         sha256.update(content);
@@ -63,8 +67,26 @@ var mysql = mysql.createConnection({
             sha256.update(content);
             var dd = sha256.digest('hex');
 
-            sqlparams = ['admin1', dd, salt1, salt2, 'email1', 'regtime'];
-            var sql = 'INSERT INTO user (username, password, salt1, salt2, email, regtime) VALUES (?, ?, ?, ?, ?, ?)';
+            var regtime = (() => {
+                var date = new Date();
+                var time = date.getTime();
+                date = new Date(time)
+                time = parseInt(time / 1000);
+                return date.getFullYear() +
+                    '-' +
+                    (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+                    '-' +
+                    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+                    ' ' +
+                    (parseInt(time / 60 / 60 % 24) < 10 ? '0' + parseInt(time / 60 / 60 % 24) : parseInt(time / 60 / 60 % 24)) +
+                    ':' +
+                    (parseInt(time / 60 % 60) < 10 ? '0' + parseInt(time / 60 % 60) : parseInt(time / 60 % 60)) +
+                    ':' +
+                    (parseInt(time % 60) < 10 ? '0' + parseInt(time % 60) : parseInt(time % 60));
+            })();
+
+            sqlparams = ['admin', dd, salt1, salt2, 'admin@test.local', regtime, 63];
+            var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime, role) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
             mysql.query(sql, sqlparams, (err, result) => {
                 if (err) {
