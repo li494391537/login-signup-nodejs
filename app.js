@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var fileStreamRotator = require('file-stream-rotator');
 
 var index = require('./routes/index');
 var signin = require('./routes/signin');
@@ -17,8 +19,22 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
+var logDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir);
+}
+var accessLogStream = fileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: path.join(logDir, 'log-%DATE%.log'),
+  frequency: 'daily',
+  verbose: true
+});
+
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(logger('common', {
+  stream: accessLogStream
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false

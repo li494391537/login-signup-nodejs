@@ -26,6 +26,7 @@
     "ejs": "latest",
     "express": "latest",
     "express-session": "~1.15.2",
+    "file-stream-rotator": "~0.1.0",
     "morgan": "~1.7.0",
     "mysql": "latest",
     "pug": "latest",
