@@ -10,6 +10,18 @@
 
 <body>
   <div style="text-align:right;">
+    <!--
+      updateUserInfo.html.userInfo = {
+        'uid'       :   'uid',
+        'username'  :   'username',
+        'email'     :   'email',
+        'regtime'   :   'regtime',
+        'bantime'   :   'bantime',
+        'role'      :   'role',
+        'lognum'    :   'lognum',
+        'logtime'   :   'logtime',
+      }
+    -->
     <% if(userInfo.isLogin) { %>
       <a href="/user"><%= userInfo.username %></a> &nbsp;&nbsp;&nbsp; <a href="/signout">注销</a>
     <% } else { %>
@@ -19,15 +31,16 @@
   <th>用户ID</th><th>用户名</th><th>邮箱</th><th>注册时间</th><th>禁止时间</th><th>权限</th><th>登录次数</th><th>登录时间</th><th>修改权限点击</th>
   <div>
       <form action = "/"+ <%= userInfo.uid %> method="post"> 
-          <tr><td>用户名</td><td><%= userInfo.uid %></td></tr>
+      <table>
+          <tr><td>用户ID</td><td><%= userInfo.uid %></td></tr>
           <tr><td>用户名</td><td><%= userInfo.username %></td></tr>
           <tr><td>邮箱</td><td><input type="text" name="email" id="email" value=<%= userInfo.email %> /></td></tr>
           <tr><td>注册时间</td><td><%= userInfo.username %></td></tr>
           <tr><td>禁止时间</td><td><input type="text" name="bantime" id="bantime" value=<%= userInfo.bantime %> /></td></tr>
           <tr><td>权限</td><td><input type="text" name="role" id="role" value=<%= userInfo.role %> /></td></tr>
           <tr><td>登录次数</td><td><input type="text" name="lognum" id="lognum" value=<%= userInfo.lognum %> /></td></tr>
-          <tr><td>登录时间</td><td><input type="text" name="logtime" id="logtime" value=<%= userInfo.logtime %> /></td></tr>
-          
+          <tr><td>登录时间</td><td><input type="text" name="logtime" id="logtime" value=<%= userInfo.logtime %> /></td></tr>   
+      </table>       
       </form>
   </div>
 </body>
