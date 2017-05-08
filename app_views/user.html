@@ -40,14 +40,14 @@
     </tr>
   </table>
   <form action="/user/password" method="post">
-    <input type="password" placeholder="输入原密码" /><br />
-    <input type="password" placeholder="输入新密码" /><br />
-    <input type="password" placeholder="重复新密码" /><br />
+    <input type="password" name="oldpassword" placeholder="输入原密码" /><br />
+    <input type="password" name="newpassword" placeholder="输入新密码" /><br />
+    <input type="password" name="repassword" placeholder="重复新密码" /><br />
     <input type="submit" value="修改密码" />
   </form>
     <form action="/user/email" method="post">
     <input type="text" value=<%= userInfo.email %> />
-    <input type="text" placeholder="输入新邮箱"/>
+    <input type="text" name="newemail" placeholder="输入新邮箱"/>
     <input type="submit" value="修改邮箱" />
   </form>
 </body>

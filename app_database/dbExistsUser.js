@@ -1,3 +1,5 @@
+var mysql = require('mysql')
+
 module.exports = function (sqlparams, pool, callback) {
     if (sqlparams.length == 1) {
         pool.getConnection((err, connection) => {

@@ -1,3 +1,4 @@
+var mysql = require('mysql')
 var crypto = require('crypto')
 
 module.exports = function (sqlparams, pool, callback) {
@@ -26,29 +27,18 @@ module.exports = function (sqlparams, pool, callback) {
                         var d2 = sha256.digest('hex')
 
                         if (dd == d2) {
-                            crypto.randomBytes(32, function (err, session_id) {
-                                session_id = session_id.toString('hex')
-                                var sql = 'UPDATE users SET cookie=? WHERE uid=?'
-                                connection.query(sql, [session_id, result[0].uid], (err, res) => {
-                                    if (err) {
-                                        console.log('[select error] : ' + err.message)
-                                    } else {
-                                        result = {
-                                            'isLogin': true,
-                                            'uid': result[0].uid,
-                                            'username': result[0].username,
-                                            'session_id': session_id
-                                        }
-                                        callback(result)
-                                    }
-                                })
-                            })
+                            result = {
+                                'isLogin': true,
+                                'uid': result[0].uid,
+                                'username': result[0].username,
+                            }
+                            callback(result)
                         } else {
                             result = {
-                                'isLogin' : false,
-                                'logNum' : result[0].lognum,
+                                'isLogin': false,
+                                'logNum': result[0].lognum,
                                 'logTime': result[0].logtime
-                             }
+                            }
                             callback(result)
                         }
                     } else {

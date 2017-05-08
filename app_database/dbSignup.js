@@ -1,3 +1,4 @@
+var mysql = require('mysql')
 var crypto = require('crypto')
 
 module.exports = function (sqlparams, pool, callback) {

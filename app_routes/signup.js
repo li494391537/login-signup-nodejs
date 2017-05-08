@@ -4,10 +4,6 @@ var express = require('express')
 
 var router = express.Router()
 
-router.getPool = function (pool) {
-    this.pool = pool
-}
-
 router.get('/', (req, res, next) => {
     res.render('signup')
 })
@@ -18,7 +14,7 @@ router.post('/', (req, res, next) => {
     var email = req.body.email
 
     var sqlparams = [username, email]
-    existsUser(sqlparams, (result) => {
+    existsUser(sqlparams, req.pool, (result) => {
         if (result > 0) {
             res.render('error', {
                 'message': '用户名或邮箱已被注册！',
@@ -29,7 +25,7 @@ router.post('/', (req, res, next) => {
             })
         } else {
             sqlparams = [username, password, email]
-            signup(sqlparams, (result) => {
+            signup(sqlparams, req.pool, (result) => {
                 res.redirect("/signin")
             })
         }

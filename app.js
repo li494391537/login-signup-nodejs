@@ -27,12 +27,6 @@ var pool = mysql.createPool({
     port: '3306'
 })
 
-signin.getBanIP(banIP)
-
-signin.getPool(pool)
-signup.getPool(pool)
-user.getPool(pool)
-
 // view engine setup
 app.engine('.html', require('ejs').__express)
 app.set('views', path.join(__dirname, 'app_views'))
@@ -66,6 +60,24 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use((req, res, next) => {
+    req.banIP = banIP
+    req.pool = pool
+    req.checkBanIP = function (ip) {
+        if (banIP[ip.toString] &&
+            (new Date()).getTime() - banIP[ip.toString].logTime < 1000 * 60 * 5) {
+            banIP[ip.toString].logNum += 1
+            banIP[ip.toString].logTime = (new Date()).getTime()
+        } else {
+            banIP[ip.toString] = {
+                'logNum': 1,
+                'logTime': (new Date()).getTime()
+            }
+        }
+    }
+    next()
+})
+
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
 app.use(logger('common', {
@@ -81,7 +93,7 @@ app.use(session({
     'cookie': {
         maxAge: 24 * 60 * 60 * 1000
     },
-    'resave' : false,
+    'resave': false,
     'saveUninitialized': false
 }));
 app.use(cookieParser())
