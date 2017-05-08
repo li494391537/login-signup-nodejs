@@ -16,28 +16,28 @@ module.exports = function signin(sqlparams, pool, callback) {
                         if (result[0].lognum > 4 &&
                             (new Date()).getTime() - result[0].logtime < 1000 * 60 * 60 * 12) {
                             callback({
-                                'isLogin': false
+                                isLogin: false
                             })
                         }
                         var dd = result[0].password
                         var salt1 = result[0].salt1
                         var salt2 = result[0].salt2
 
-                        var sha256 = crypto.createHash("sha256")
+                        var sha256 = crypto.createHash('sha256')
                         sha256.update(salt1)
                         sha256.update(sqlparams[1])
                         var d1 = sha256.digest('hex')
 
-                        sha256 = crypto.createHash("sha256")
+                        sha256 = crypto.createHash('sha256')
                         sha256.update(salt2)
                         sha256.update(d1)
                         var d2 = sha256.digest('hex')
 
                         if (dd == d2) {
                             callback({
-                                'isLogin': true,
-                                'uid': result[0].uid,
-                                'username': result[0].username,
+                                isLogin: true,
+                                uid: result[0].uid,
+                                username: result[0].username,
                             })
                         } else {
                             //密码错误，记录进数据库
@@ -51,7 +51,7 @@ module.exports = function signin(sqlparams, pool, callback) {
                                 updateUserInfo.updateLogInfo([req.session.uid, lognum, logtime], req.pool, (result) => {})
                             }
                             callback({
-                                'isLogin': false
+                                isLogin: false
                             })
                         }
                     } else {

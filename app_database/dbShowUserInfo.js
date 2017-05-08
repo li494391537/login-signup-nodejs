@@ -10,12 +10,12 @@ module.exports = function (sqlparams, pool, callback) {
                 } else {
                     if (result) {
                         callback({
-                            'uid': result[0].uid,
-                            'username': result[0].username,
-                            'email': result[0].email,
-                            'regtime': result[0].regtime,
-                            'bantime': result[0].bantime,
-                            'role': result[0].role
+                            uid: result[0].uid,
+                            username: result[0].username,
+                            email: result[0].email,
+                            regtime: result[0].regtime,
+                            bantime: result[0].bantime,
+                            role: result[0].role
                         })
                     }
                 }

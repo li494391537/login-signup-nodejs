@@ -8,11 +8,11 @@ var router = express.Router()
 router.get('/', (req, res, next) => {
     if (req.params.message) {
         res.render('signup', {
-            'message': req.params.message
+            message: req.params.message
         })
     } else {
         res.render('signup', {
-            'message': 0
+            message: 0
         })
     }
 })
@@ -41,16 +41,16 @@ router.post('/', (req, res, next) => {
         existsUser(sqlparams, req.pool, (result) => {
             if (result > 0) {
                 res.render('error', {
-                    'message': '用户名或邮箱已被注册！',
-                    'error': {
-                        'stack': 'undefined',
-                        'status': 'undefined'
+                    message: '用户名或邮箱已被注册！',
+                    error: {
+                        stack: '',
+                        status: ''
                     }
                 })
             } else {
                 sqlparams = [username, password, email]
                 signup(sqlparams, req.pool, (result) => {
-                    res.redirect("/signin")
+                    res.redirect('/signin')
                 })
             }
         })
