@@ -2,7 +2,7 @@ var express = require('express')
 
 var router = express.Router()
 
-router((req, res, next) => {
+router.use((req, res, next) => {
     if (req.session.isLogin) {
         next('route')
     } else {
@@ -12,7 +12,7 @@ router((req, res, next) => {
 
 
 router.use('/1', (req, res, next) => {
-    if (req.session.role) {
+    if (req.session.role & 1) {
         next('route')
     } else {
         res.render('error', {
@@ -26,7 +26,7 @@ router.use('/1', (req, res, next) => {
 })
 
 router.use('/2', (req, res, next) => {
-    if (req.session.role) {
+    if (req.session.role & 2) {
         next('route')
     } else {
         res.render('error', {
@@ -40,7 +40,7 @@ router.use('/2', (req, res, next) => {
 })
 
 router.use('/3', (req, res, next) => {
-    if (req.session.role) {
+    if (req.session.role & 4) {
         next('route')
     } else {
         res.render('error', {
@@ -54,7 +54,7 @@ router.use('/3', (req, res, next) => {
 })
 
 router.use('/4', (req, res, next) => {
-    if (req.session.role) {
+    if (req.session.role & 8) {
         next('route')
     } else {
         res.render('error', {

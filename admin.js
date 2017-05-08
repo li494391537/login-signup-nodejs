@@ -27,9 +27,6 @@ var pool = mysql.createPool({
     port: '3306'
 })
 
-signin.getBanIP(banIP)
-signin.getPool(pool)
-
 // view engine setup
 app.engine('.html', require('ejs').__express)
 app.set('views', path.join(__dirname, 'admin_views'))
@@ -58,6 +55,24 @@ app.use((req, res, next) => {
                     'status': '403'
                 }
             })
+        }
+    }
+    next()
+})
+
+app.use((req, res, next) => {
+    req.banIP = banIP
+    req.pool = pool
+    req.checkBanIP = function () {
+        if (req.banIP[req.ip.toString] &&
+            (new Date()).getTime() - req.banIP[req.ip.toString].logTime < 1000 * 60 * 5) {
+            req.banIP[req.ip.toString].logNum += 1
+            req.banIP[req.ip.toString].logTime = (new Date()).getTime()
+        } else {
+            req.banIP[req.ip.toString] = {
+                'logNum': 1,
+                'logTime': (new Date()).getTime()
+            }
         }
     }
     next()

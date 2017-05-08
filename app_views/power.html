@@ -10,7 +10,7 @@
 
 <body>
   <div style="text-align:right;">
-    <% if(userInfo.isLogin) { %>
+    <% if(isLogin) { %>
       <a href="/user">
         <%= userInfo.username %>
       </a>
@@ -23,10 +23,14 @@
     <% } %>
   </div>
 
-  <% if(userInfo.isLogin && power == 1) { %>
-  <% } else if(userInfo.isLogin && power == 2) { %>
-  <% } else if(userInfo.isLogin && power == 3) { %>
-  <% } else if(userInfo.isLogin && power == 4) { %>
+  <% if(isLogin && power == 1) { %>
+  <a href="http://www.baidu.com">baidu</a>
+  <% } else if(isLogin && power == 2) { %>
+  <a href="http://www.sohu.com">sohu</a>
+  <% } else if(isLogin && power == 3) { %>
+  <a href="http://www.dilidili.com">di</a>
+  <% } else if(isLogin && power == 4) { %>
+  <a href="http://www.bilibili.com">bi</a>
   <% } %>
 
 </body>

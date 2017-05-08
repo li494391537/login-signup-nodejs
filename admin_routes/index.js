@@ -1,13 +1,14 @@
 var existsUser = require('../admin_database/dbExistsUser')
-var userInfo = require('../admin_database/dbUserInfo')
+var showUserInfo = require('../admin_database/dbShowUserInfo')
 var updateUserInfo = require('../admin_database/dbUpdateUserInfo')
 var express = require('express')
 var router = express.Router()
 
+router.
 
 router.get('/', (req, res, next) => {
     if (req.session.isLogin && req.session.isLogin == true) {
-        userInfo(req.session.uid, req.pool, (result) => {
+        showUserInfo(req.session.uid, req.pool, (result) => {
             res.render('index', {
                 'userInfo': {
                     'isLogin': true,
@@ -31,24 +32,22 @@ router.get('/:uid', (req, res, next) => {
     if (req.session.isLogin && req.session.isLogin == true) {
         existsUser([req.params.uid], (result) => {
             if (result) {
-                userInfo(uid, (result) => {
-                    userInfo(req.session.uid, req.pool, (result) => {
-                        res.render('updateUserInfo', {
-                            userInfo: {
-                                'admin': {
-                                    'isLogin': req.session.isLogin,
-                                    'username': req.session.username,
-                                },
-                                'uid': result[0].uid,
-                                'username': result[0].username,
-                                'email': result[0].email,
-                                'regtime': result[0].regtime,
-                                'bantime': result[0].bantime,
-                                'role': result[0].role,
-                                'lognum': result[0].lognum,
-                                'logtime': result[0].logtime,
-                            }
-                        })
+                showUserInfo(req.params.uid, req.pool, (result) => {
+                    res.render('updateUserInfo', {
+                        'userInfo': {
+                            'admin': {
+                                'isLogin': req.session.isLogin,
+                                'username': req.session.username,
+                            },
+                            'uid': result[0].uid,
+                            'username': result[0].username,
+                            'email': result[0].email,
+                            'regtime': result[0].regtime,
+                            'bantime': result[0].bantime,
+                            'role': result[0].role,
+                            'lognum': result[0].lognum,
+                            'logtime': result[0].logtime,
+                        }
                     })
                 })
             } else {

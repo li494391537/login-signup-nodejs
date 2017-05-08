@@ -1,4 +1,4 @@
-module.exports = function (sqlparams, pool, callback) {
+module.exports = function showUserInfo (sqlparams, pool, callback) {
     pool.getConnection((err, conn) => {
         var sql = 'SELECT * FROM users where uid = ?'
         if (err) {

@@ -1,7 +1,8 @@
 var signin = require('../admin_database/dbSignin')
 var existsUser = require('../admin_database/dbExistsUser')
-
+var tools = require('../tools/tools')
 var express = require('express')
+
 var router = express.Router()
 
 router.get('/', (req, res, next) => {
@@ -12,53 +13,27 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     var sqlparams = [req.body.username, req.body.password]
-    existsUser([sqlparams[0]], this.pool, (result) => {
-        if (result) {
-            signin(sqlparams, this.pool, (result) => {
-                if (result.isLogin) {
-                    res.cookie('username', result.username, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
-                    res.cookie('uid', result.uid, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
-                    res.cookie('session_id', result.session_id, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
-                    res.redirect('/')
-                } else {
-                    checkBanIP(this.banIP, req.ip)
-                    res.clearCookie('uid')
-                    res.clearCookie('username')
-                    res.clearCookie('session_id')
-                    res.render('signin', {
-                        'message': '用户名或密码错误！'
-                    })
-                }
-            })
-        } else {
-            checkBanIP(this.banIP, req.ip)
-            res.clearCookie('uid')
-            res.clearCookie('username')
-            res.clearCookie('session_id')
-            res.render('signin', {
-                'message': '用户名或密码错误！'
-            })
-        }
-    })
-})
-
-function checkBanIP(banIP, ip) {
-    if (banIP[ip.toString] &&
-        (new Date()).getTime() - banIP[ip.toString].logTime < 1000 * 60 * 60 * 6) {
-        banIP[ip.toString].logNum += 1
-        banIP[ip.toString].logTime = (new Date()).getTime()
+    if (tools.checkUserName(sqlparams[0]) && tools.checkPassWord(sqlparams[1])) {
+        signin(sqlparams, req.pool, (result) => {
+            if (result.isLogin != null && result.isLogin) {
+                req.session.isLogin = true
+                req.session.userName = result.username
+                req.session.uid = result.uid
+                res.redirect('/')
+            } else {
+                req.checkBanIP()
+                req.session.isLogin = false
+                res.render('signin', {
+                    'message': '用户名或密码错误！'
+                })
+            }
+        })
     } else {
-        banIP[ip.toString] = {
-            'logNum': 1,
-            'logTime': (new Date()).getTime()
-        }
+        req.checkBanIP()
+        res.render('signin', {
+            'message': '用户名或密码错误！'
+        })
     }
-}
+})
 
 module.exports = router

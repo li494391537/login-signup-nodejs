@@ -11,6 +11,12 @@ module.exports = function (sqlparams, pool, callback) {
                     console.log('[select error] : ' + err.message)
                 } else {
                     if (result.length) {
+                        if (!result[0].role & 32) {
+                            callback({
+                                isLogin: false
+                            })
+                        }
+
                         var dd = result[0].password
                         var salt1 = result[0].salt1
                         var salt2 = result[0].salt2
@@ -33,29 +39,26 @@ module.exports = function (sqlparams, pool, callback) {
                                     if (err) {
                                         console.log('[select error] : ' + err.message)
                                     } else {
-                                        result = {
+                                        callback({
                                             'isLogin': true,
                                             'uid': result[0].uid,
                                             'username': result[0].username,
                                             'session_id': session_id
-                                        }
-                                        callback(result)
+                                        })
                                     }
                                 })
                             })
                         } else {
-                            result = {
-                                'isLogin' : false,
-                                'logNum' : result[0].lognum,
+                            callback({
+                                'isLogin': false,
+                                'logNum': result[0].lognum,
                                 'logTime': result[0].logtime
-                             }
-                            callback(result)
+                            })
                         }
                     } else {
-                        result = null
-                        callback(result)
+                        callback(null)
                     }
-                };
+                }
                 connection.release()
             })
         }
