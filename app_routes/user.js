@@ -26,18 +26,17 @@ router.post((req, res, next) => {
 router.get('/', (req, res, next) => {
     showUserInfo([req.session.uid], req.pool, (result) => {
         res.render('user', {
-            'title': req.session.userName + '的个人信息',
-            'userInfo': {
-                'isLogin': req.session.isLogin,
-                'username': result.username,
-                'email': result.email,
-                'regtime': result.regtime,
-                'role': result.role,
-                'message': req.params.message
+            title: req.session.userName + '的个人信息',
+            isLogin: req.session.isLogin,
+            userInfo: {
+                username: result.username,
+                email: result.email,
+                regtime: result.regtime,
+                role: result.role,
+                message: req.params.message
             }
         })
     })
-
 })
 
 router.post('/password', (req, res, next) => {
@@ -45,7 +44,7 @@ router.post('/password', (req, res, next) => {
     signin([req.session.userName, req.body.oldpassword], req.pool, (result) => {
         //登陆成功则更改密码
         if (result.isLogin) {
-            updateUserInfo.updatePassword([req.session.uid, req.body.newpassword], req.pool, (result) => {
+            updateUserInfo.updatePassword([req.body.newpassword, req.session.uid], req.pool, (result) => {
                 res.redirect('/usermessage=1')
             })
         } else {
@@ -58,7 +57,7 @@ router.post('/password', (req, res, next) => {
 
 router.post('/email', (req, res, next) => {
     if (tools.checkEmail(req.body.newemail)) {
-        updateUserInfo.updateEmail([req.session.uid, req.body.newemail], req.pool, (result) => {
+        updateUserInfo.updateEmail([req.body.newemail, req.session.uid], req.pool, (result) => {
             res.redirect('/user?message=3') //修改Email成功
         })
     } else {

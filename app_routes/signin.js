@@ -7,7 +7,7 @@ var router = express.Router()
 
 router.get('/', (req, res, next) => {
     res.render('signin', {
-        'message': ''
+        message: ''
     })
 })
 
@@ -24,13 +24,13 @@ router.post('/', (req, res, next) => {
                 req.checkBanIP()
                 req.session.isLogin = false
                 res.render('signin', {
-                    'message': '用户名或密码错误！'
+                    message: '用户名或密码错误！'
                 })
             }
         })
     } else {
         res.render('signin', {
-            'message': '用户名或密码错误！'
+            message: '用户名或密码错误！'
         })
     }
 })
