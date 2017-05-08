@@ -14,18 +14,30 @@
 <body>
     <div style="text-align:center;position:absolute;width:400px;height:200px;left:40%;top:20%;">
         <form action="/signup" method="post">
+            <% if(message & 1){  %>
+                <p>用户名格式错误</p>
+            <% } %>
             <div>
                 用户名：
                 <input type="text" name="username" width="10 em" height="1.5 em" placeholder="请输入用户名" />
             </div>
+            <% if(message & 2){  %>
+                <p>密码格式错误</p>
+            <% } %>
             <div>
                 密码：
                 <input type="password" name="password" width="10 em" height="1.5 em" placeholder="请输入密码" />
             </div>
+            <% if(message & 4){  %>
+                <p>两次密码不同</p>
+            <% } %>
             <div>
                 密码：
                 <input type="password" name="repassword" width="10 em" height="1.5 em" placeholder="请重复密码" />
             </div>
+            <% if(message & 8){  %>
+                <p>邮箱格式错误</p>
+            <% } %>
             <div>
                 邮箱：
                 <input type="text" name="email" width="10 em" height="1.5 em" placeholder="请输入邮箱" />

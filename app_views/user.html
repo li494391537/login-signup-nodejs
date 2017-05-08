@@ -40,9 +40,9 @@
     </tr>
   </table>
 
-    <% if(userInfo.pwe == 1){  %>
+    <% if(userInfo.message == 1){  %>
       <p>修改密码成功</p>
-    <% if(userInfo.pwe == 2){  %>
+    <% } else if(userInfo.message == 2){  %>
       <p>修改密码失败</p>
     <% } %>
 
@@ -52,10 +52,10 @@
     <input type="password" name="repassword" placeholder="重复新密码" /><br />
     <input type="submit" value="修改密码" />
   </form>
-    <% if(userInfo.pwe == 3){  %>
+    <% if(userInfo.message == 3){  %>
       <p>修改邮箱成功</p>
-    <% if(userInfo.pwe == 4){  %>
-      <p>修改邮箱成功</p>
+    <% } else if(userInfo.message == 4){  %>
+      <p>邮箱格式错误</p>
     <% } %>
   <form action="/user/email" method="post">
     <input type="text" value=<%= userInfo.email %> />
