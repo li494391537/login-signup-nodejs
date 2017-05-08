@@ -13,6 +13,7 @@ var crypto = require('crypto')
 var index = require('./app_routes/index')
 var signin = require('./app_routes/signin')
 var signup = require('./app_routes/signup')
+var signout = require('./app_routes/signout')
 var user = require('./app_routes/user')
 var app = express()
 
@@ -89,6 +90,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', index)
 app.use('/signin', signin)
 app.use('/signup', signup)
+app.use('/signout', signout)
 app.use('/user', user)
 
 // catch 404 and forward to error handler
