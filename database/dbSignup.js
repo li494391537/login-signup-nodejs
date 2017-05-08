@@ -1,7 +1,6 @@
-var pool = require('./dbHandle')
 var crypto = require('crypto')
 
-module.exports = function (sqlparams, callback) {
+module.exports = function (sqlparams, pool, callback) {
     crypto.randomBytes(32, function (err, salt1) {
         if (err) {
             throw err

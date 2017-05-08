@@ -34,9 +34,9 @@ module.exports = function (sqlparams, pool, callback) {
                                         console.log('[select error] : ' + err.message)
                                     } else {
                                         result = {
+                                            'isLogin': true,
                                             'uid': result[0].uid,
                                             'username': result[0].username,
-                                            'isLogin': true,
                                             'session_id': session_id
                                         }
                                         callback(result)

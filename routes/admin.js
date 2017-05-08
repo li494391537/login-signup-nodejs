@@ -1,6 +1,5 @@
 var existsUser = require('../database/dbExistsUser')
 var userInfo = require('../database/dbUserInfo')
-var authority = require('../database/dbAuthority')
 var express = require('express')
 var router = express.Router()
 

@@ -25,13 +25,13 @@ admin.set('port', port2)
 var server1 = http.createServer(app)
 
 server1.listen(port1)
-server1.on('error', onError)
-server1.on('listening', onListening)
+server1.on('error', onError1)
+server1.on('listening', onListening1)
 
 var server2 = http.createServer(admin)
 server2.listen(port2)
-server2.on('error', onError)
-server2.on('listening', onListening)
+server2.on('error', onError2)
+server2.on('listening', onListening2)
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -56,14 +56,14 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError1(error) {
   if (error.syscall !== 'listen') {
     throw error
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port
+  var bind = typeof port1 === 'string'
+    ? 'Pipe ' + port1
+    : 'Port ' + port1
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -84,8 +84,48 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
-  var addr = server.address()
+function onListening1() {
+  var addr = server1.address()
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port
+  debug('Listening on ' + bind)
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError2(error) {
+  if (error.syscall !== 'listen') {
+    throw error
+  }
+
+  var bind = typeof port2 === 'string'
+    ? 'Pipe ' + port2
+    : 'Port ' + port2
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges')
+      process.exit(1);
+      break
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use')
+      process.exit(1)
+      break
+    default:
+      throw error
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening2() {
+  var addr = server2.address()
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port

@@ -9,24 +9,10 @@ var fileStreamRotator = require('file-stream-rotator')
 var mysql = require('mysql')
 
 var admin = require('./routes/admin')
+var signin = require('./routes/signin')
 var app = express()
 
-// view engine setup
-app.engine('.html', require('ejs').__express)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'html')
-
-// uncomment after placing your favicon in /public
-var logDir = path.join(__dirname, 'logs')
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir)
-}
-var accessLogStream = fileStreamRotator.getStream({
-    date_format: 'YYYYMMDD',
-    filename: path.join(logDir, 'log-%DATE%.log'),
-    frequency: 'daily',
-    verbose: true
-})
+var banIP = new Array();
 
 var pool = mysql.createPool({
     host: '127.0.0.1',
@@ -37,6 +23,24 @@ var pool = mysql.createPool({
 })
 
 admin.getPool(pool)
+
+// view engine setup
+app.engine('.html', require('ejs').__express)
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'html')
+
+// uncomment after placing your favicon in /public
+var logDir = path.join(__dirname, 'admin_logs')
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir)
+}
+var accessLogStream = fileStreamRotator.getStream({
+    date_format: 'YYYYMMDD',
+    filename: path.join(logDir, 'log-%DATE%.log'),
+    frequency: 'daily',
+    verbose: true
+})
+
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
@@ -51,6 +55,8 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', admin)
+app.use('/signin', signin)
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
