@@ -13,7 +13,6 @@ var crypto = require('crypto')
 var index = require('./routes/index')
 var signin = require('./routes/signin')
 var signup = require('./routes/signup')
-var admin = require('./routes/admin')
 var user = require('./routes/user')
 var app = express()
 
@@ -31,7 +30,6 @@ signin.getBanIP(banIP)
 
 signin.getPool(pool)
 signup.getPool(pool)
-admin.getPool(pool)
 user.getPool(pool)
 
 // view engine setup
