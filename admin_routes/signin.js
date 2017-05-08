@@ -1,15 +1,8 @@
 var signin = require('../admin_database/dbSignin')
 var existsUser = require('../admin_database/dbExistsUser')
+
 var express = require('express')
 var router = express.Router()
-
-router.getPool = function (pool) {
-    this.pool = pool;
-}
-
-router.getBanIP = function (banIP) {
-    this.banIP = banIP;
-}
 
 router.get('/', (req, res, next) => {
     res.render('signin', {
