@@ -21,8 +21,6 @@ create table users(
     email varchar(40) unique not null,
     regtime varchar(40) not null,
     bantime varchar(40),
-    cookie varchar(64),
-    cookiestart bigint,
     role tinyint not null default 0
 );
 ```
