@@ -12,6 +12,9 @@ var crypto = require('crypto')
 
 var index = require('./admin_routes/index')
 var signin = require('./admin_routes/signin')
+var signout = require('./admin_routes/signout')
+var admin = require('./admin_routes/admin')
+
 var app = express()
 
 var banIP = new Array();

@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 router.get('/', function (req, res, next) {
-    if (req.session.isLogin && req.session.isLogin == true) {
+    if (req.session.isLogin) {
         res.render('index', {
             userInfo: {
                 isLogin: true,

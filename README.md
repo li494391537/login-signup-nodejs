@@ -20,7 +20,11 @@ create table users(
     salt2 varchar(64) not null,
     email varchar(40) unique not null,
     regtime varchar(40) not null,
-    bantime varchar(40),
+    bantime bigint,
+    lognum tinyint,
+    logtime bigint,
+    emailcheck varchar(128),
+    emailchecktime bigint,
     role tinyint not null default 0
 );
 ```

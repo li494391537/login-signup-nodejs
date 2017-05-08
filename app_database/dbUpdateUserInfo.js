@@ -1,24 +1,26 @@
 var crypto = require('crypto')
 
-var updateUserInfo = new function (){
+var updateUserInfo = new function () {
     this.updatePassword = function (sqlparams, pool, callback) {
         var sql = 'UPDATE users SET password=? WHERE uid=?'
         pool.getConnection((err, conn) => {
-        if (err) {
-            console.log('[pool error] : ' + err.message)
-        } else {
-            conn.query(sql, sqlparams, (err, result) => {
-                if (err) {
-                    console.log('[select error] : ' + err.message)
-                } else {
-                    
-                }
-                connection.release()
-    })
+            if (err) {
+                console.log('[pool error] : ' + err.message)
+            } else {
+                conn.query(sql, sqlparams, (err, result) => {
+                    if (err) {
+                        console.log('[select error] : ' + err.message)
+                    } else {
 
-    this.updateEmail= function (sqlparams, pool, callback) {
+                    }
+                    connection.release()
+                })
+            }
+        })
+    }
+
+    this.updateEmail = function (sqlparams, pool, callback) {
         var sql = 'UPDATE users SET email=? WHERE uid=?'
     }
 }
-
 module.exports = updateUserInfo
