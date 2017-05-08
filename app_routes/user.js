@@ -49,7 +49,7 @@ route.post('/password', (req, res, next) => {
                     var logtime = (new Date()).getTime()
                     updateUserInfo.updateLogInfo([req.session.uid, lognum, logtime], req.pool, (result) => {})
                 }
-                res.redirect('/user?message=2')
+                res.redirect('/user?message=2')  //原密码错误
             }
         })
     } else {
