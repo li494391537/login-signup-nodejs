@@ -10,7 +10,6 @@
 
 <body>
   <div style="text-align:right;">
-    <% if(isLogin) { %>
       <a href="/user">
         <%= userInfo.username %>
       </a>
@@ -18,18 +17,15 @@
       <a href="/signout">
         注销
       </a>
-    <% } else { %>
-        <a href="/signin">登陆</a> &nbsp;&nbsp;&nbsp; <a href="/signup">注册</a>
-    <% } %>
   </div>
 
-  <% if(isLogin && power == 1) { %>
+  <% if(power == 1) { %>
   <a href="http://www.baidu.com">baidu</a>
-  <% } else if(isLogin && power == 2) { %>
+  <% } else if(power == 2) { %>
   <a href="http://www.sohu.com">sohu</a>
-  <% } else if(isLogin && power == 3) { %>
+  <% } else if(power == 3) { %>
   <a href="http://www.dilidili.com">di</a>
-  <% } else if(isLogin && power == 4) { %>
+  <% } else if(power == 4) { %>
   <a href="http://www.bilibili.com">bi</a>
   <% } %>
 

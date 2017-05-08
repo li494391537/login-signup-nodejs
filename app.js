@@ -15,6 +15,7 @@ var signin = require('./app_routes/signin')
 var signup = require('./app_routes/signup')
 var signout = require('./app_routes/signout')
 var user = require('./app_routes/user')
+var power = require('./app_routes/power')
 var app = express()
 
 var banIP = new Array();
@@ -22,7 +23,7 @@ var banIP = new Array();
 var pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
-    password: 'toor',
+    password: 'root',
     database: 'test',
     port: '3306'
 })
@@ -56,8 +57,9 @@ app.use((req, res, next) => {
                 }
             })
         }
+    } else {
+        next()
     }
-    next()
 })
 
 app.use((req, res, next) => {
@@ -104,6 +106,7 @@ app.use('/signin', signin)
 app.use('/signup', signup)
 app.use('/signout', signout)
 app.use('/user', user)
+app.use('/power', power)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -6,7 +6,7 @@ router.use((req, res, next) => {
     if (req.session.isLogin) {
         next('route')
     } else {
-        res.redirect('/signin', )
+        res.redirect('/signin')
     }
 })
 
@@ -68,24 +68,38 @@ router.use('/4', (req, res, next) => {
 
 router.get('/1', (req, res, next) => {
     res.render('power', {
-        'power': 1
+        'power': 1,
+        userInfo: {
+            username: req.session.username
+        }
     })
 })
 
 router.get('/2', (req, res, next) => {
     res.render('power', {
-        'power': 2
+        'power': 2,
+        userInfo: {
+            username: req.session.username
+        }
     })
 })
 
 router.get('/3', (req, res, next) => {
     res.render('power', {
-        'power': 3
+        'power': 3,
+        userInfo: {
+            username: req.session.username
+        }
     })
 })
 
 router.get('/4', (req, res, next) => {
     res.render('power', {
-        'power': 4
+        'power': 4,
+        userInfo: {
+            username: req.session.username
+        }
     })
 })
+
+module.exports = router

@@ -19,6 +19,7 @@ router.post('/', (req, res, next) => {
                 req.session.isLogin = true
                 req.session.userName = result.username
                 req.session.uid = result.uid
+                req.session.role = result.role
                 res.redirect('/')
             } else {
                 req.checkBanIP()

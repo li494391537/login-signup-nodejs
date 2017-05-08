@@ -1,5 +1,6 @@
 var existsUsers = require('../app_database/dbExistsUser')
 var showUserInfo = require('../app_database/dbShowUserInfo')
+var updateUserInfo = require('../app_database/dbUpdateUserInfo')
 var signin = require('../app_database/dbSignin')
 var tools = require('../tools/tools')
 
@@ -45,7 +46,7 @@ router.post('/password', (req, res, next) => {
         //登陆成功则更改密码
         if (result.isLogin) {
             updateUserInfo.updatePassword([req.body.newpassword, req.session.uid], req.pool, (result) => {
-                res.redirect('/usermessage=1')
+                res.redirect('/user?message=1')
             })
         } else {
             //登陆失败记录IP

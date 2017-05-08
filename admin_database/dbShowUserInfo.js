@@ -8,7 +8,7 @@ module.exports = function showUserInfo (sqlparams, pool, callback) {
                 if (err) {
                     console.log('[select error] : ' + err.message)
                 } else {
-                    if (result) {
+                    if (result.length) {
                         callback({
                             'uid': result[0].uid,
                             'username': result[0].username,
