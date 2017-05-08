@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
                     req.session.uid = result.uid
                     res.redirect('/')
                 } else {
-                    req.checkBanIP(req.ip)
+                    req.checkBanIP()
                     req.session.isLogin = false
                     res.render('signin', {
                         'message': '用户名或密码错误！'
@@ -28,7 +28,7 @@ router.post('/', (req, res, next) => {
                 }
             })
         } else {
-            req.checkBanIP(req.ip)
+            req.checkBanIP()
             req.session.isLogin = false
             res.render('signin', {
                 'message': '用户名或密码错误！'
