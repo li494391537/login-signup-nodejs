@@ -10,6 +10,15 @@
 
 <body>
   <div style="text-align:right;">
+    <!--
+      user.html.userInfo = {
+        'isLogin' : ,
+        'username' : ,
+        'email' : ,
+        'regtime' : ,
+        'role' : 
+      }
+    -->
     <% if(userInfo.isLogin) { %>
       <a href="/user"><%= userInfo.username %></a> &nbsp;&nbsp;&nbsp; <a href="/signout">注销</a>
     <% } else { %>
@@ -27,7 +36,7 @@
       <td>注册时间</td><td><%= userInfo.regtime %></td>
     </tr>
     <tr>
-      <td>权限</td><td><%= userInfo.regtime %></td>
+      <td>权限</td><td><%= userInfo.role %></td>
     </tr>
   </table>
   <form action="/user/password" method="post">
