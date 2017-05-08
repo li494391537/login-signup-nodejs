@@ -71,7 +71,7 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(session({
-    'secret': crypto.randomBytes(64),
+    'secret': crypto.randomBytes(64).toString('hex'),
     'cookie': {
         maxAge: 24 * 60 * 60 * 1000
     },
