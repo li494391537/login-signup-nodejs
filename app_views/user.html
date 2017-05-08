@@ -39,13 +39,25 @@
       <td>权限</td><td><%= userInfo.role %></td>
     </tr>
   </table>
+
+    <% if(userInfo.pwe == 1){  %>
+      <p>修改密码成功</p>
+    <% if(userInfo.pwe == 2){  %>
+      <p>修改密码失败</p>
+    <% } %>
+
   <form action="/user/password" method="post">
     <input type="password" name="oldpassword" placeholder="输入原密码" /><br />
     <input type="password" name="newpassword" placeholder="输入新密码" /><br />
     <input type="password" name="repassword" placeholder="重复新密码" /><br />
     <input type="submit" value="修改密码" />
   </form>
-    <form action="/user/email" method="post">
+    <% if(userInfo.pwe == 3){  %>
+      <p>修改邮箱成功</p>
+    <% if(userInfo.pwe == 4){  %>
+      <p>修改邮箱成功</p>
+    <% } %>
+  <form action="/user/email" method="post">
     <input type="text" value=<%= userInfo.email %> />
     <input type="text" name="newemail" placeholder="输入新邮箱"/>
     <input type="submit" value="修改邮箱" />
