@@ -2,13 +2,19 @@ var express = require('express')
 var router = express.Router()
 
 router.get('/', function (req, res, next) {
-    if (req.cookies.username) {
+    if (req.session.isLogin && req.session.isLogin == true) {
         res.render('index', {
-            title: 'Sign in , Sign up and '
+            'userInfo': {
+                'isLogin': true,
+                'username': req.session.username
+            }
         })
     } else {
+        req.session.isLogin = false;
         res.render('index', {
-            title: 'Express'
+            'userInfo': {
+                'isLogin': false
+            }
         })
     }
 })

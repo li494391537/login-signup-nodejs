@@ -23,21 +23,13 @@ router.post('/', (req, res, next) => {
         if (result) {
             signin(sqlparams, this.pool, (result) => {
                 if (result.isLogin) {
-                    res.cookie('username', result.username, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
-                    res.cookie('uid', result.uid, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
-                    res.cookie('session_id', result.session_id, {
-                        maxAge: 24 * 60 * 60 * 1000
-                    })
+                    req.session.isLogin = true
+                    req.session.username = result.username
+                    req.session.uid = result.uid
                     res.redirect('/')
                 } else {
                     checkBanIP(this.banIP, req.ip)
-                    res.clearCookie('uid')
-                    res.clearCookie('username')
-                    res.clearCookie('session_id')
+                    req.session.isLogin = false
                     res.render('signin', {
                         'message': '用户名或密码错误！'
                     })
@@ -45,9 +37,7 @@ router.post('/', (req, res, next) => {
             })
         } else {
             checkBanIP(this.banIP, req.ip)
-            res.clearCookie('uid')
-            res.clearCookie('username')
-            res.clearCookie('session_id')
+            req.session.isLogin = false
             res.render('signin', {
                 'message': '用户名或密码错误！'
             })
