@@ -8,11 +8,7 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var mysql = require('mysql')
 
-var index = require('./routes/index')
-var signin = require('./routes/signin')
-var signup = require('./routes/signup')
 var admin = require('./routes/admin')
-var user = require('./routes/user')
 var app = express()
 
 // view engine setup
@@ -40,10 +36,7 @@ var pool = mysql.createPool({
     port: '3306'
 })
 
-signin.getPool(pool)
-signup.getPool(pool)
 admin.getPool(pool)
-user.getPool(pool)
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
@@ -57,11 +50,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', index)
-app.use('/signin', signin)
-app.use('/signup', signup)
-app.use('/admin', admin)
-app.use('/user', user)
+app.use('/', admin)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

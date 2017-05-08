@@ -1,6 +1,4 @@
-var pool = require('./dbHandle')
-
-module.exports =  function (sqlparams, callback) {
+module.exports =  function (sqlparams, pool, callback) {
     pool.getConnection((err, conn) => {
         if (err) {
             console.log('[pool error] : ' + err.message);

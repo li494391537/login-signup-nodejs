@@ -1,6 +1,6 @@
 var pool = require('./dbHandle')
 
-module.exports = function (sqlparams, callback) {
+module.exports = function (sqlparams, pool, callback) {
     if (sqlparams.length == 1) {
         pool.getConnection((err, connection) => {
             var sql = 'SELECT * FROM users WHERE uid = ?'

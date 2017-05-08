@@ -1,6 +1,11 @@
 var signin = require('../database/dbSignin')
+var existsUser = require('../database/dbExistsUser')
 var express = require('express')
 var router = express.Router()
+
+router.getPool = function (pool) {
+    this.pool = pool;
+}
 
 router.get('/', (req, res, next) => {
     res.render('signin')
@@ -9,8 +14,8 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
     var sqlparams = [req.body.username, req.body.password]
 
-    signin(sqlparams, (result) => {
-        if (result) {
+    signin(sqlparams, pool, (result) => {
+        if (result.isLogin) {
             res.cookie('username', result.username, {
                 maxAge: 24 * 60 * 60 * 1000
             })

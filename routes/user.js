@@ -1,6 +1,10 @@
 var express = require('express')
 var router = express.Router()
 
+router.getPool = function (pool) {
+    this.pool = pool;
+}
+
 router.get('/', (req, res, next) => {
     if (req.cookies.session_id) {
         res.render('user', {
@@ -8,7 +12,7 @@ router.get('/', (req, res, next) => {
             session_id: req.cookies.session_id
         })
     } else {
-        next('route')
+        res.redirect('/signin');
     }
 })
 

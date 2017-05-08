@@ -1,7 +1,6 @@
-var pool = require('./dbHandle')
 var crypto = require('crypto')
 
-module.exports = function (sqlparams, callback) {
+module.exports = function (sqlparams, pool, callback) {
     pool.getConnection((err, connection) => {
         var sql = 'SELECT * FROM users where username = ?'
         if (err) {
@@ -37,6 +36,7 @@ module.exports = function (sqlparams, callback) {
                                         result = {
                                             'uid': result[0].uid,
                                             'username': result[0].username,
+                                            'isLogin': true,
                                             'session_id': session_id
                                         }
                                         callback(result)
@@ -44,7 +44,11 @@ module.exports = function (sqlparams, callback) {
                                 })
                             })
                         } else {
-                            result = null
+                            result = {
+                                'isLogin' : false,
+                                'logNum' : result[0].lognum,
+                                'logTime': result[0].logtime
+                             }
                             callback(result)
                         }
                     } else {
