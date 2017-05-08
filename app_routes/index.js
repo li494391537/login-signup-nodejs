@@ -6,7 +6,7 @@ router.get('/', function (req, res, next) {
         res.render('index', {
             isLogin: true,
             userInfo: {
-                username: req.session.username
+                username: req.session.userName
             }
         })
     } else {

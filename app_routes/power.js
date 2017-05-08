@@ -10,92 +10,69 @@ router.use((req, res, next) => {
     }
 })
 
-router.use('/1', (req, res, next) => {
-    if (req.session.role & 1) {
-        next('route')
+router.use('/:id', (req, res, next) => {
+    if (req.params.id == 1) {
+        if (req.session.role & 1) {
+            next('route')
+        } else {
+            res.render('error', {
+                message: '没有权限',
+                error: {
+                    stack: '',
+                    status: '403'
+                }
+            })
+        }
+    } else if (req.params.id == 2) {
+        if (req.session.role & 2) {
+            next('route')
+        } else {
+            res.render('error', {
+                message: '没有权限',
+                error: {
+                    stack: '',
+                    status: '403'
+                }
+            })
+        }
+    } else if (req.params.id == 3) {
+        if (req.session.role & 4) {
+            next('route')
+        } else {
+            res.render('error', {
+                message: '没有权限',
+                error: {
+                    stack: '',
+                    status: '403'
+                }
+            })
+        }
+    } else if (req.params.id == 4) {
+        if (req.session.role & 8) {
+            next('route')
+        } else {
+            res.render('error', {
+                message: '没有权限',
+                error: {
+                    stack: '',
+                    status: '403'
+                }
+            })
+        }
     } else {
         res.render('error', {
-            message: 'IP失败次数过多！',
+            message: 'Not Found',
             error: {
                 stack: '',
-                status: '403'
+                status: '404'
             }
         })
     }
 })
 
-router.use('/2', (req, res, next) => {
-    if (req.session.role & 2) {
-        next('route')
-    } else {
-        res.render('error', {
-            'message': 'IP失败次数过多！',
-            'error': {
-                'stack': '',
-                'status': '403'
-            }
-        })
-    }
-})
-
-router.use('/3', (req, res, next) => {
-    if (req.session.role & 4) {
-        next('route')
-    } else {
-        res.render('error', {
-            'message': 'IP失败次数过多！',
-            'error': {
-                'stack': '',
-                'status': '403'
-            }
-        })
-    }
-})
-
-router.use('/4', (req, res, next) => {
-    if (req.session.role & 8) {
-        next('route')
-    } else {
-        res.render('error', {
-            'message': 'IP失败次数过多！',
-            'error': {
-                'stack': '',
-                'status': '403'
-            }
-        })
-    }
-})
-
-router.get('/1', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     res.render('power', {
-        'power': 1,
-        userInfo: {
-            username: req.session.username
-        }
-    })
-})
-
-router.get('/2', (req, res, next) => {
-    res.render('power', {
-        'power': 2,
-        userInfo: {
-            username: req.session.username
-        }
-    })
-})
-
-router.get('/3', (req, res, next) => {
-    res.render('power', {
-        'power': 3,
-        userInfo: {
-            username: req.session.username
-        }
-    })
-})
-
-router.get('/4', (req, res, next) => {
-    res.render('power', {
-        'power': 4,
+        'power': req.params.id,
         userInfo: {
             username: req.session.username
         }

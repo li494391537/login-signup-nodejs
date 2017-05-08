@@ -13,9 +13,9 @@ var http = require('http')
  * Get port from environment and store in Express.
  */
 
-var port1 = normalizePort(process.env.PORT || '8888')
+var port1 = normalizePort(process.env.PORT || '8866')
 app.set('port', port1)
-var port2 = normalizePort(process.env.PORT || '6666')
+var port2 = normalizePort(process.env.PORT || '6688')
 admin.set('port', port2)
 
 /**

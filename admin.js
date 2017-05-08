@@ -22,7 +22,7 @@ var banIP = new Array();
 var pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
-    password: 'root',
+    password: 'toor',
     database: 'test',
     port: '3306'
 })
@@ -56,15 +56,16 @@ app.use((req, res, next) => {
                 }
             })
         }
+    } else {
+        next()
     }
-    next()
 })
 
 app.use((req, res, next) => {
     req.banIP = banIP
     req.pool = pool
     req.checkBanIP = function () {
-        if (req.banIP[req.ip.toString] && 
+        if (req.banIP[req.ip.toString] &&
             (new Date()).getTime() - req.banIP[req.ip.toString].logTime < 1000 * 60 * 5) {
             req.banIP[req.ip.toString].logNum += 1
             req.banIP[req.ip.toString].logTime = (new Date()).getTime()
@@ -93,14 +94,16 @@ app.use(session({
     'cookie': {
         maxAge: 24 * 60 * 60 * 1000
     },
-    'resave' : false,
+    'resave': false,
     'saveUninitialized': false
 }));
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', index)
 app.use('/signin', signin)
+app.use('/admin', admin)
+app.use('/signout', signout)
+app.use('/', index)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

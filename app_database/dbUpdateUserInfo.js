@@ -6,7 +6,7 @@ var updateUserInfo = new function () {
             if (err) {
                 console.log('[pool error] : ' + err.message)
             } else {
-                var sql = 'UPDATE users SET password=? WHERE uid=?'
+                var sql = 'UPDATE users SET password=?, salt1=?, salt2=? WHERE uid=?'
 
                 var salt1 = crypto.randomBytes(32)
                 salt1 = salt1.toString('hex')
@@ -24,7 +24,7 @@ var updateUserInfo = new function () {
                 sha256.update(content)
                 var dd = sha256.digest('hex')
 
-                sqlparams = [dd, sqlparams[1]]
+                sqlparams = [dd, salt1, salt2, sqlparams[1]]
 
                 conn.query(sql, sqlparams, (err, result) => {
                     if (err) {

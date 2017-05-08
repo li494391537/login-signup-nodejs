@@ -1,9 +1,3 @@
-# signin-signup-nodejs
-
-## A node.js project about signin and signup.
-
-创建init.js： 
-``` 
 var mysql = require('mysql');
 var crypto = require('crypto');
 
@@ -96,10 +90,3 @@ var mysql = mysql.createConnection({
         });
     })
 })();
-
-```
-然后运行
-
-```
-node init.js
-```

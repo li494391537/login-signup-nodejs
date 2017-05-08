@@ -4,32 +4,38 @@ var updateUserInfo = require('../admin_database/dbUpdateUserInfo')
 var express = require('express')
 var router = express.Router()
 
-router.get((req, res, next) => {
-    if (req.session.isLogin) {
-        next('route')
+router.use((req, res, next) => {
+    if (req.method === 'POST') {
+        if (req.session.isLogin) {
+            next('route')
+        } else {
+            req.session.isLogin = false
+            req.checkBanIP()
+            res.redirect('/signin');
+        }
+    } else if (req.method === 'GET') {
+        if (req.session.isLogin) {
+            next('route')
+        } else {
+            req.session.isLogin = false
+            res.redirect('/signin');
+        }
     } else {
-        req.session.isLogin = false
-        res.redirect('/signin');
+        next('route')
     }
 })
 
-router.post((req, res, next) => {
-    if (req.session.isLogin) {
-        next('route')
-    } else {
-        req.session.isLogin = false
-        req.checkBanIP()
-        res.redirect('/');
-    }
+router.post('/', (req, res, next) => {
+
 
 })
 
 router.get('/', (req, res, next) => {
-    showUserInfo([req.session.uid], req.pool, (result) => {
+    showUserInfo.showAllUserInfo([], req.pool, (result) => {
         res.render('index', {
+            'isLogin': true,
             'userInfo': {
-                'isLogin': true,
-                'username': req.session.username
+                'username': req.session.userName
             },
             'userinfos': result
         })
@@ -37,9 +43,9 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:uid', (req, res, next) => {
-    existsUser([req.params.uid], (result) => {
+    existsUser([req.params.uid], req.pool, (result) => {
         if (result) {
-            showUserInfo(req.params.uid, req.pool, (result) => {
+            showUserInfo.showUserInfoByID(req.params.uid, req.pool, (result) => {
                 res.render('updateUserInfo', {
                     'userInfo': {
                         'admin': {
@@ -66,7 +72,7 @@ router.get('/:uid', (req, res, next) => {
 
 //?????
 router.post('/:uid', (req, res, next) => {
-    existsUser(uid, (result) => {
+    existsUser(uid, req.pool, (result) => {
         if (result) {
             var email = req.body.email
             var bantime = req.body.bantime
@@ -77,14 +83,10 @@ router.post('/:uid', (req, res, next) => {
             updateUserInfo(sqlparams, req.pool, (result) => {
                 res.redirect('/' + uid)
             })
-        }
-        else {
+        } else {
             res.redirect('/')
         }
     })
 })
 
 module.exports = router
-
-
-
