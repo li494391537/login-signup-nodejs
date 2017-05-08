@@ -10,10 +10,10 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var crypto = require('crypto')
 
-var index = require('./routes/index')
-var signin = require('./routes/signin')
-var signup = require('./routes/signup')
-var user = require('./routes/user')
+var index = require('./app_routes/index')
+var signin = require('./app_routes/signin')
+var signup = require('./app_routes/signup')
+var user = require('./app_routes/user')
 var app = express()
 
 var banIP = new Array();
@@ -34,11 +34,11 @@ user.getPool(pool)
 
 // view engine setup
 app.engine('.html', require('ejs').__express)
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'app_views'))
 app.set('view engine', 'html')
 
 // uncomment after placing your favicon in /public
-var logDir = path.join(__dirname, 'logs')
+var logDir = path.join(__dirname, 'app_logs')
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir)
 }
@@ -75,9 +75,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-var str = crypto.randomBytes(64)
 app.use(session({
-    'secret': str,
+    'secret': crypto.randomBytes(64),
     'cookie': {
         maxAge: 24 * 60 * 60 * 1000
     },

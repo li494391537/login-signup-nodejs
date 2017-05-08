@@ -2,14 +2,16 @@ var express = require('express')
 var path = require('path')
 var favicon = require('serve-favicon')
 var logger = require('morgan')
-var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+var mysql = require('mysql')
 var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
-var mysql = require('mysql')
+var crypto = require('crypto')
 
-var admin = require('./routes/admin')
-var signin = require('./routes/signin')
+var index = require('./admin_routes/index')
+var signin = require('./admin_routes/signin')
 var app = express()
 
 var banIP = new Array();
@@ -22,11 +24,12 @@ var pool = mysql.createPool({
     port: '3306'
 })
 
-admin.getPool(pool)
+signin.getBanIP(banIP)
+signin.getPool(pool)
 
 // view engine setup
 app.engine('.html', require('ejs').__express)
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'admin_views'))
 app.set('view engine', 'html')
 
 // uncomment after placing your favicon in /public
@@ -41,6 +44,21 @@ var accessLogStream = fileStreamRotator.getStream({
     verbose: true
 })
 
+app.use((req, res, next) => {
+    if (banIP[req.ip.toString] &&
+        banIP[req.ip.toString].logNum > 4) {
+        if ((new Date()).getDate() - banIP[req.ip.toString].logTime < 1000 * 60 * 60 * 6) {
+            res.render('error', {
+                'message': 'IP失败次数过多！',
+                'error': {
+                    'stack': '',
+                    'status': '403'
+                }
+            })
+        }
+    }
+    next()
+})
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
@@ -51,12 +69,20 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+
+app.use(session({
+    'secret': crypto.randomBytes(64),
+    'cookie': {
+        maxAge: 24 * 60 * 60 * 1000
+    },
+    'resave' : false,
+    'saveUninitialized': false
+}));
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', admin)
+app.use('/', index)
 app.use('/signin', signin)
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

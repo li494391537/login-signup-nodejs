@@ -1,5 +1,5 @@
-var signup = require('../database/dbSignup')
-var existsUser = require('../database/dbExistsUser')
+var signup = require('../app_database/dbSignup')
+var existsUser = require('../app_database/dbExistsUser')
 var express = require('express')
 
 var router = express.Router()

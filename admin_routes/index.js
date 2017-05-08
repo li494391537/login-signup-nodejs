@@ -1,5 +1,5 @@
-var existsUser = require('../database/dbExistsUser')
-var userInfo = require('../database/dbUserInfo')
+var existsUser = require('../admin_database/dbExistsUser')
+var userInfo = require('../admin_database/dbUserInfo')
 var express = require('express')
 var router = express.Router()
 
