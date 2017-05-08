@@ -3,7 +3,7 @@ var mysql = require('mysql')
 module.exports = function (sqlparams, pool, callback) {
     if (sqlparams.length == 1) {
         pool.getConnection((err, connection) => {
-            var sql = 'SELECT * FROM users WHERE uid = ?'
+            var sql = 'SELECT * FROM users WHERE username = ?'
             if (err) {
                 console.log('[pool error] : ' + err.message)
             } else {

@@ -1,5 +1,3 @@
-var mysql = require('mysql')
-
 module.exports = function (sqlparams, pool, callback) {
     pool.getConnection((err, conn) => {
         var sql = 'SELECT * FROM users where uid = ?'

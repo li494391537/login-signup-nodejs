@@ -1,7 +1,7 @@
 var mysql = require('mysql')
 var crypto = require('crypto')
 
-module.exports = function (sqlparams, pool, callback) {
+module.exports = function signin(sqlparams, pool, callback) {
     pool.getConnection((err, connection) => {
         var sql = 'SELECT * FROM users where username = ?'
         if (err) {
@@ -12,6 +12,13 @@ module.exports = function (sqlparams, pool, callback) {
                     console.log('[select error] : ' + err.message)
                 } else {
                     if (result.length) {
+                        //判断是否被冻结且处于冻结期内
+                        if (result[0].lognum > 4 &&
+                            (new Date()).getTime() - result[0].logtime < 1000 * 60 * 60 * 12) {
+                            callback({
+                                'isLogin': false
+                            })
+                        }
                         var dd = result[0].password
                         var salt1 = result[0].salt1
                         var salt2 = result[0].salt2
@@ -27,25 +34,31 @@ module.exports = function (sqlparams, pool, callback) {
                         var d2 = sha256.digest('hex')
 
                         if (dd == d2) {
-                            result = {
+                            callback({
                                 'isLogin': true,
                                 'uid': result[0].uid,
                                 'username': result[0].username,
-                            }
-                            callback(result)
+                            })
                         } else {
-                            result = {
-                                'isLogin': false,
-                                'logNum': result[0].lognum,
-                                'logTime': result[0].logtime
+                            //密码错误，记录进数据库
+                            if ((new Date()).getTime() - result[0].logtime < 1000 * 60 * 5) {
+                                var lognum = result[0].lognum + 1
+                                var logtime = (new Date()).getTime()
+                                updateUserInfo.updateLogInfo([req.session.uid, lognum, logtime], req.pool, (result) => {})
+                            } else {
+                                var lognum = 1
+                                var logtime = (new Date()).getTime()
+                                updateUserInfo.updateLogInfo([req.session.uid, lognum, logtime], req.pool, (result) => {})
                             }
-                            callback(result)
+                            callback({
+                                'isLogin': false
+                            })
                         }
                     } else {
-                        result = null
-                        callback(result)
+                        //用户名错误
+                        callback(null)
                     }
-                };
+                }
                 connection.release()
             })
         }
