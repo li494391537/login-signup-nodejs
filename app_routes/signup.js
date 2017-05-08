@@ -5,13 +5,23 @@ var express = require('express')
 var router = express.Router()
 
 router.get('/', (req, res, next) => {
-    res.render('signup')
+    if (req.params.message) {
+        res.render('signup', {
+            'message': req.params.message
+        })
+    }else {
+        res.render('signup', {
+            'message': 0
+        })
+    }
 })
 
 router.post('/', (req, res, next) => {
     var username = req.body.username
     var password = req.body.password
     var email = req.body.email
+
+    
 
     var sqlparams = [username, email]
     existsUser(sqlparams, req.pool, (result) => {
