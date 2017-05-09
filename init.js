@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var mysql = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'toor',
+    password: 'root',
     database: 'test',
     port: '3306'
 });
@@ -57,36 +57,27 @@ var mysql = mysql.createConnection({
 
             var sql = 'DROP TABLE users;';
             mysql.query(sql, (err, result) => {
-                if (err) {
-                    console.log('[select error] : ' + err.message);
-                } else {
-                    var sql = 'CREATE TABLE users(uid int primary key auto_increment,username varchar(40) unique not null,password varchar(64) not null,salt1 varchar(64) not null,salt2 varchar(64) not null,email varchar(40) unique not null,regtime varchar(40) not null,lognum tinyint,logtime bigint,emailcheck varchar(128),emailchecktime bigint,emailchecktime tinyint not null default 0,role tinyint not null default 0);';
-                    mysql.query(sql, (err, result) => {
-                        if (err) {
-                            console.log('[select error] : ' + err.message);
-                        } else {
-                            var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime, role) VALUES (?, ?, ?, ?, ?, ?, ?);';
-                            var sqlparams = ['admin', dd, salt1, salt2, 'admin@test.local', regtime, 63];
+                var sql = 'CREATE TABLE users(uid int primary key auto_increment,username varchar(40) unique not null,password varchar(64) not null,salt1 varchar(64) not null,salt2 varchar(64) not null,email varchar(40) unique not null,regtime varchar(40) not null,lognum tinyint,logtime bigint,emailcheck varchar(128),emailchecktime bigint,emailchecktype tinyint not null default 0,role tinyint not null default 0);';
+                mysql.query(sql, (err, result) => {
+                    var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime, role) VALUES (?, ?, ?, ?, ?, ?, ?);';
+                    var sqlparams = ['admin', dd, salt1, salt2, 'admin@test.local', regtime, 63];
+                    mysql.query(sql, sqlparams, (err, result) => {
+                        for (var i = 1; i < 20; i++) {
+                            var sqlparams = ['test' + i, dd, salt1, salt2, 'test' + i + '@test.local', regtime, i];
                             mysql.query(sql, sqlparams, (err, result) => {
                                 if (err) {
                                     console.log('[select error] : ' + err.message);
                                 } else {
-                                    for (var i = 1; i < 20; i++) {
-                                        var sqlparams = ['test' + i, dd, salt1, salt2, 'test' + i + '@test.local', regtime, i];
-                                        mysql.query(sql, sqlparams, (err, result) => {
-                                            if (err) {
-                                                console.log('[select error] : ' + err.message);
-                                            } else {
-                                                console.log('Insert Sussess');
-                                            }
-                                        })
-                                    }
+                                    console.log('Insert Sussess');
                                 }
                             })
                         }
+
                     })
-                };
-            });
+
+                })
+
+            })
         });
     })
 })();
