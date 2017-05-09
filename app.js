@@ -10,6 +10,8 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var crypto = require('crypto')
 
+var  checkBanIP = require('./function/checkBanIP')
+
 var index = require('./app_routes/index')
 var signin = require('./app_routes/signin')
 var signup = require('./app_routes/signup')
@@ -46,23 +48,6 @@ var accessLogStream = fileStreamRotator.getStream({
 })
 
 app.use((req, res, next) => {
-    if (banIP[req.ip.toString] &&
-        banIP[req.ip.toString].logNum > 4) {
-        if ((new Date()).getDate() - banIP[req.ip.toString].logTime < 1000 * 60 * 60 * 6) {
-            res.render('error', {
-                'message': 'IP失败次数过多！',
-                'error': {
-                    'stack': '',
-                    'status': '403'
-                }
-            })
-        }
-    } else {
-        next()
-    }
-})
-
-app.use((req, res, next) => {
     req.banIP = banIP
     req.pool = pool
     req.checkBanIP = function () {
@@ -79,6 +64,8 @@ app.use((req, res, next) => {
     }
     next()
 })
+
+app.use(checkBanIP)
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
