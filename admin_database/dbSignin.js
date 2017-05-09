@@ -43,7 +43,8 @@ module.exports = function signin(sqlparams, pool, callback) {
                                     callback({
                                         isLogin: true,
                                         uid: result[0].uid,
-                                        username: result[0].username
+                                        username: result[0].username,
+                                        role : result[0].role
                                     })
                                 } else {
                                     //密码错误，记录进数据库

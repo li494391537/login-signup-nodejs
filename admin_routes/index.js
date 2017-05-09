@@ -77,12 +77,12 @@ router.post('/:uid', (req, res, next) => {
             if (tools.checkEmail(req.body.email) && (req.body.role & 32)) {
                 var email = req.body.email
                 var role = req.body.role
-                var sqlparams = [email, role, uid]
+                var sqlparams = [email, role, req.params.uid]
                 updateUserInfo(sqlparams, req.pool, (result) => {
-                    res.redirect('/' + uid)
+                    res.redirect('/' + req.params.uid)
                 })
             } else {
-                res.redirect('/' + uid)
+                res.redirect('/' + req.params.uid)
             }
 
         } else {
@@ -95,6 +95,13 @@ router.post('/:uid/password', (req, res, next) => {
     existsUser(uid, req.pool, (result) => {
         if (result) {
             if(tools.checkPassWord())
+            {
+                var password = req.body.password
+                var sqlparams = [password, req.params.uid]
+                updateUserInfo.updateUserPassword(sqlparams, req.pool, (result) => {
+                    res.redirect('/' + uid)
+                })
+            }
         }
         else { }
     })
