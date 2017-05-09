@@ -7,9 +7,7 @@ var tools = new function () {
                 flag = true
             }
         }
-        if(!flag){
-            alert('用户名格式不对')
-        }
+        return flag
     }
     this.checkPassWord= function (password) {
         var flag = false;
@@ -19,9 +17,7 @@ var tools = new function () {
                 flag = true
             }
         }
-        if(!flag){
-            alert('新密码格式不对')
-        }
+        return flag
     }
 
     this.checkEmail =function (email) {
@@ -32,9 +28,7 @@ var tools = new function () {
                 flag = true
             }
         }
-        if(!flag){
-            alert('邮箱格式不对')
-        }       
+        return flag   
     }
 }
 
