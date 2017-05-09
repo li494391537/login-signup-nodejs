@@ -1,7 +1,7 @@
 module.exports = function checkBanIP(req, res, next) {
-    if (banIP[req.ip.toString] &&
-        banIP[req.ip.toString].logNum > 4) {
-        if ((new Date()).getDate() - banIP[req.ip.toString].logTime < 1000 * 60 * 60 * 6) {
+    if (req.banIP[req.ip.toString] &&
+        req.banIP[req.ip.toString].logNum > 4) {
+        if ((new Date()).getDate() - req.banIP[req.ip.toString].logTime < 1000 * 60 * 60 * 6) {
             res.render('error', {
                 'message': 'Forbidden',
                 'error': {

@@ -21,6 +21,10 @@ module.exports = function signin(sqlparams, pool, callback) {
                             callback({
                                 isLogin: false
                             })
+                        } else if ((result[0].role & 32) >> 5) {
+                            callback({
+                                isLogin: false
+                            })
                         } else {
                             var dd = result[0].password
                             var salt1 = result[0].salt1
