@@ -3,13 +3,16 @@ var crypto = require('crypto')
 
 module.exports = function signin(sqlparams, pool, callback) {
     pool.getConnection((err, connection) => {
-        var sql = 'SELECT * FROM users where username = ?'
         if (err) {
             console.log('[pool error] : ' + err.message)
+            callback(null)
         } else {
+            var sql = 'SELECT * FROM users where username = ?'
             connection.query(sql, sqlparams, (err, result) => {
+                connection.release()
                 if (err) {
                     console.log('[select error] : ' + err.message)
+                    callback(null)
                 } else {
                     if (result.length) {
                         //判断是否被冻结且处于冻结期内
@@ -45,11 +48,11 @@ module.exports = function signin(sqlparams, pool, callback) {
                                 if ((new Date()).getTime() - result[0].logtime < 1000 * 60 * 5) {
                                     var lognum = result[0].lognum + 1
                                     var logtime = (new Date()).getTime()
-                                    updateUserInfo.updateLogInfo([lognum, logtime, result[0].uid], pool, (result) => { })
+                                    updateUserInfo.updateLogInfo([lognum, logtime, result[0].uid], pool, (result) => {})
                                 } else {
                                     var lognum = 1
                                     var logtime = (new Date()).getTime()
-                                    updateUserInfo.updateLogInfo([lognum, logtime, result[0].uid], pool, (result) => { })
+                                    updateUserInfo.updateLogInfo([lognum, logtime, result[0].uid], pool, (result) => {})
                                 }
                                 callback({
                                     isLogin: false
@@ -61,7 +64,6 @@ module.exports = function signin(sqlparams, pool, callback) {
                         callback(null)
                     }
                 }
-                connection.release()
             })
         }
     })

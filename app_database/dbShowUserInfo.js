@@ -1,12 +1,15 @@
 module.exports = function (sqlparams, pool, callback) {
     pool.getConnection((err, conn) => {
-        var sql = 'SELECT * FROM users where uid = ?'
         if (err) {
             console.log('[pool error] : ' + err.message)
+            callback(null)
         } else {
+            var sql = 'SELECT * FROM users where uid = ?'
             conn.query(sql, sqlparams, (err, result) => {
+                conn.release()
                 if (err) {
                     console.log('[select error] : ' + err.message)
+                    callback(null)
                 } else {
                     if (result) {
                         callback({
@@ -19,7 +22,6 @@ module.exports = function (sqlparams, pool, callback) {
                         })
                     }
                 }
-                conn.release()
             })
         }
     })

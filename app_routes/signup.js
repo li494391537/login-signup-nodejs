@@ -1,6 +1,7 @@
 var signup = require('../app_database/dbSignup')
 var existsUser = require('../app_database/dbExistsUser')
 var tools = require('../function/tools')
+var sendEmail = require('../function/sendEmail')
 var express = require('express')
 
 var router = express.Router()
@@ -50,6 +51,9 @@ router.post('/', (req, res, next) => {
             } else {
                 sqlparams = [username, password, email]
                 signup(sqlparams, req.pool, (result) => {
+                    if (result != null) {
+                        console.log(result)
+                    }
                     res.redirect('/signin')
                 })
             }

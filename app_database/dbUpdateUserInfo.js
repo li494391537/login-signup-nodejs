@@ -1,10 +1,12 @@
 var crypto = require('crypto')
+var uid = require('uid-safe')
 
 var updateUserInfo = new function () {
     this.updatePassword = function (sqlparams, pool, callback) {
         pool.getConnection((err, conn) => {
             if (err) {
                 console.log('[pool error] : ' + err.message)
+                callback(null)
             } else {
                 var sql = 'UPDATE users SET password=?, salt1=?, salt2=? WHERE uid=?'
 
@@ -27,12 +29,13 @@ var updateUserInfo = new function () {
                 sqlparams = [dd, salt1, salt2, sqlparams[1]]
 
                 conn.query(sql, sqlparams, (err, result) => {
+                    conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)
+                        callback(null)
                     } else {
                         callback(result)
                     }
-                    conn.release()
                 })
             }
         })
@@ -42,15 +45,17 @@ var updateUserInfo = new function () {
         pool.getConnection((err, conn) => {
             if (err) {
                 console.log('[pool error] : ' + err.message)
+                callback(null)
             } else {
-                var sql = 'UPDATE users SET email=? WHERE uid=?'
-                conn.query(sql, sqlparams, (err, result) => {
+                var sql = 'UPDATE users SET email=?, emailcheck=?, emailchecktime=?, emailchecktype=? WHERE uid=?'
+                conn.query(sql, [sqlparams[0], uid.sync(128), (new Date()).getTime(), 2], (err, result) => {
+                    conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)
+                        callback(null)
                     } else {
-                        callback(result)
+                        callback([sqlparams[1]])
                     }
-                    conn.release()
                 })
             }
         })
@@ -63,15 +68,17 @@ var updateUserInfo = new function () {
             } else {
                 var sql = 'UPDATE users SET lognum=?, logtime=? WHERE uid=?'
                 conn.query(sql, sqlparams, (err, result) => {
+                    conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)
                     } else {
                         callback(result)
                     }
-                    conn.release()
                 })
             }
         })
     }
+
+    this.updateUserStat = function ( )
 }
 module.exports = updateUserInfo
