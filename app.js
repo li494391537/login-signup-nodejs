@@ -10,6 +10,7 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var crypto = require('crypto')
 
+
 var  checkBanIP = require('./function/checkBanIP')
 
 var index = require('./app_routes/index')
@@ -25,27 +26,16 @@ var banIP = new Array();
 var pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
-    password: 'root',
+    password: 'toor',
     database: 'test',
     port: '3306'
 })
 
-// view engine setup
+// 设置模板引擎
 app.engine('.html', require('ejs').__express)
 app.set('views', path.join(__dirname, 'app_views'))
 app.set('view engine', 'html')
 
-// uncomment after placing your favicon in /public
-var logDir = path.join(__dirname, 'app_logs')
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir)
-}
-var accessLogStream = fileStreamRotator.getStream({
-    date_format: 'YYYYMMDD',
-    filename: path.join(logDir, 'log-%DATE%.log'),
-    frequency: 'daily',
-    verbose: true
-})
 
 app.use((req, res, next) => {
     req.banIP = banIP
@@ -67,7 +57,20 @@ app.use((req, res, next) => {
 
 app.use(checkBanIP)
 
+// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
+// 设置日志记录中间件
+var logDir = path.join(__dirname, 'app_logs')
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir)
+}
+var accessLogStream = fileStreamRotator.getStream({
+    date_format: 'YYYYMMDD',
+    filename: path.join(logDir, 'log-%DATE%.log'),
+    frequency: 'daily',
+    verbose: true
+})
 app.use(logger('dev'))
 app.use(logger('common', {
     stream: accessLogStream
