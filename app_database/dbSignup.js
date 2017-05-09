@@ -1,4 +1,5 @@
 var mysql = require('mysql')
+var uid = require('uid-safe')
 var crypto = require('crypto')
 
 module.exports = function (sqlparams, pool, callback) {
@@ -36,20 +37,22 @@ module.exports = function (sqlparams, pool, callback) {
             (parseInt(time % 60) < 10 ? '0' + parseInt(time % 60) : parseInt(time % 60));
     })()
 
-    sqlparams = [sqlparams[0], dd, salt1, salt2, sqlparams[2], regtime]
-    var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime) VALUES (?, ?, ?, ?, ?, ?)'
+    sqlparams = [sqlparams[0], dd, salt1, salt2, sqlparams[2], uid.sync(128), (new Date()).getTime(), 1, regtime]
+    var sql = 'INSERT INTO users (username, password, salt1, salt2, email, emailcheck, emailchecktime, emailchecktype, regtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     pool.getConnection((err, connection) => {
         if (err) {
             console.log('[pool error] : ' + err.message)
+            callback(null)
         } else {
             connection.query(sql, sqlparams, (err, result) => {
+                connection.release()
                 if (err) {
                     console.log('[select error] : ' + err.message)
+                    callback(null)
                 } else {
-                    callback(result)
+                    callback(sqlparams[5])
                 }
             })
-            connection.release()
         }
     })
 }

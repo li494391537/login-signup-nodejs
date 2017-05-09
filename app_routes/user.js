@@ -47,6 +47,9 @@ router.post('/password', (req, res, next) => {
 router.post('/email', (req, res, next) => {
     if (tools.checkEmail(req.body.newemail)) {
         updateUserInfo.updateEmail([req.body.newemail, req.session.uid], req.pool, (result) => {
+            if (result != null) {
+                console.log(result)
+            }
             res.redirect('/user?message=3') //修改Email成功
         })
     } else {
