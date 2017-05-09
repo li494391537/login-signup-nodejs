@@ -5,9 +5,66 @@
     <meta charset="utf-8">
     <title>Register</title>
     <script type="text/javascript">
-        function checkUsername() { }
-        function checkPassword() { }
-        function checkEmail() { }
+        function check() {
+            var username = document.getElementsByName(username);
+            var password = document.getElementsByName(password);
+            var repassword = document.getElementsByName(repassword);
+            var email = document.getElementsByName(email);
+            checkUserName(username);
+            checkPassword(password);
+            checkEqual(pass1, pass2);
+            checkEmail(email);
+        }
+
+        function checkUserName(username) {
+            var flag = false;
+            if (username != "") {
+                var reg = /^[a-zA-Z_]+[a-zA-Z0-9_]{3,19}$/
+                if (reg.test(username)) {
+                    flag = true
+                }
+            }
+            if (!flag) {
+                alert('用户名格式不对')
+            }
+        }
+
+        function checkPassWord(password) {
+            var flag = false;
+            if (password != "") {
+                var reg = /^[a-zA-Z0-9_+-=,.~!@#$%^&*]{8,16}$/
+                if (reg.test(password)) {
+                    flag = true
+                }
+            }
+            if (!flag) {
+                alert('新密码格式不对')
+            }
+        }
+
+        function checkEqual(pass1, pass2) {
+            var flag = false;
+            if (pass1 == pass2) {
+                flag = true
+            }
+            if (!flag) {
+                alert('两次密码不同')
+            }
+        }
+        function checkEmail(email) {
+            checkEmail = function (email) {
+                var flag = false
+                if (email != "") {
+                    var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]+$/
+                    if (reg.test(email)) {
+                        flag = true
+                    }
+                }
+                if (!flag) {
+                    alert('邮箱格式不对')
+                }
+            }
+        }
     </script>
 </head>
 
@@ -16,35 +73,35 @@
         <form action="/signup" method="post">
             <% if(message & 1){  %>
                 <p>用户名格式错误</p>
-            <% } %>
-            <div>
-                用户名：
-                <input type="text" name="username" width="10 em" height="1.5 em" placeholder="请输入用户名" />
-            </div>
-            <% if(message & 2){  %>
-                <p>密码格式错误</p>
-            <% } %>
-            <div>
-                密码：
-                <input type="password" name="password" width="10 em" height="1.5 em" placeholder="请输入密码" />
-            </div>
-            <% if(message & 4){  %>
-                <p>两次密码不同</p>
-            <% } %>
-            <div>
-                密码：
-                <input type="password" name="repassword" width="10 em" height="1.5 em" placeholder="请重复密码" />
-            </div>
-            <% if(message & 8){  %>
-                <p>邮箱格式错误</p>
-            <% } %>
-            <div>
-                邮箱：
-                <input type="text" name="email" width="10 em" height="1.5 em" placeholder="请输入邮箱" />
-            </div>
-            <div>
-                <input type="submit" value="login" />
-            </div>
+                <% } %>
+                    <div>
+                        用户名：
+                        <input type="text" name="username" width="10 em" height="1.5 em" placeholder="请输入用户名" />
+                    </div>
+                    <% if(message & 2){  %>
+                        <p>密码格式错误</p>
+                    <% } %>
+                    <div>
+                        密码：
+                        <input type="password" name="password" width="10 em" height="1.5 em" placeholder="请输入密码" />
+                    </div>
+                    <% if(message & 4){  %>
+                        <p>两次密码不同</p>
+                    <% } %>
+                   <div>
+                        密码：
+                        <input type="password" name="repassword" width="10 em" height="1.5 em" placeholder="请重复密码" />
+                   </div>
+                    <% if(message & 8){  %>
+                        <p>邮箱格式错误</p>
+                    <% } %>
+                    <div>
+                        邮箱：
+                        <input type="text" name="email" width="10 em" height="1.5 em" placeholder="请输入邮箱" />
+                    </div>
+                    <div>
+                        <input type="submit" value="login" onclick="check()" />
+                    </div>
         </form>
     </div>
 </body>

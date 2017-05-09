@@ -6,19 +6,68 @@
     <%= title %>
   </title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script type="text/javascript">
+        function check1() {
+            var password = document.getElementsByName(password);
+            var repassword = document.getElementsByName(repassword);
+            checkPassword(password);
+            checkEqual(pass1, pass2);
+        }
+
+        function checkUserName(username) {
+            var flag = false;
+            if (username != "") {
+                var reg = /^[a-zA-Z_]+[a-zA-Z0-9_]{3,19}$/
+                if (reg.test(username)) {
+                    flag = true
+                }
+            }
+            if (!flag) {
+                alert('用户名格式不对')
+            }
+        }
+
+        function checkPassWord(password) {
+            var flag = false;
+            if (password != "") {
+                var reg = /^[a-zA-Z0-9_+-=,.~!@#$%^&*]{8,16}$/
+                if (reg.test(password)) {
+                    flag = true
+                }
+            }
+            if (!flag) {
+                alert('新密码格式不对')
+            }
+        }
+
+        function checkEqual(pass1, pass2) {
+            var flag = false;
+            if (pass1 == pass2) {
+                flag = true
+            }
+            if (!flag) {
+                alert('两次密码不同')
+            }
+        }
+        function checkEmail(email) {
+            checkEmail = function (email) {
+                var flag = false
+                if (email != "") {
+                    var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]+$/
+                    if (reg.test(email)) {
+                        flag = true
+                    }
+                }
+                if (!flag) {
+                    alert('邮箱格式不对')
+                }
+            }
+        }
+    </script>
 </head>
 
 <body>
   <div style="text-align:right;">
-    <!--
-      user.html.userInfo = {
-        'isLogin' : ,
-        'username' : ,
-        'email' : ,
-        'regtime' : ,
-        'role' : 
-      }
-    -->
     <% if(isLogin) { %>
       <a href="/user"><%= userInfo.username %></a> &nbsp;&nbsp;&nbsp; <a href="/signout">注销</a>
     <% } else { %>
@@ -50,7 +99,7 @@
     <input type="password" name="oldpassword" placeholder="输入原密码" /><br />
     <input type="password" name="newpassword" placeholder="输入新密码" /><br />
     <input type="password" name="repassword" placeholder="重复新密码" /><br />
-    <input type="submit" value="修改密码" />
+    <input type="submit" value="修改密码" onclick=""/>
   </form>
     <% if(userInfo.message == 3){  %>
       <p>修改邮箱成功</p>
@@ -58,7 +107,6 @@
       <p>邮箱格式错误</p>
     <% } %>
   <form action="/user/email" method="post">
-    <input type="text" value=<%= userInfo.email %> />
     <input type="text" name="newemail" placeholder="输入新邮箱"/>
     <input type="submit" value="修改邮箱" />
   </form>

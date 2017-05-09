@@ -7,21 +7,18 @@ var tools = new function () {
                 flag = true
             }
         }
-        if(!flag){
-            alert('用户名格式不对')
-        }
+        return flag;
     }
+    
     this.checkPassWord= function (password) {
-        var flag = false;
+        var flag = false
         if (password != "") {
             var reg = /^[a-zA-Z0-9_+-=,.~!@#$%^&*]{8,16}$/
             if (reg.test(password)) {
                 flag = true
             }
         }
-        if(!flag){
-            alert('新密码格式不对')
-        }
+        return flag;
     }
 
     this.checkEmail =function (email) {
@@ -32,9 +29,7 @@ var tools = new function () {
                 flag = true
             }
         }
-        if(!flag){
-            alert('邮箱格式不对')
-        }       
+        return flag;
     }
 }
 
