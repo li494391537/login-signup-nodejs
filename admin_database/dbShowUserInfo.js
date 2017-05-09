@@ -18,7 +18,8 @@ var showUserInfo = new function () {
                                 'regtime': result[0].regtime,
                                 'lognum': result[0].lognum,
                                 'logtime': result[0].logtime,
-                                'role': result[0].role
+                                'role': result[0].role,
+                                'emailchecktype': result[0].emailchecktype
                             })
                         } else {
                             callback({})

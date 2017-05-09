@@ -37,9 +37,16 @@
       <table>
           <tr><td>用户ID</td><td><%= editInfo.uid %></td></tr>
           <tr><td>用户名</td><td><%= editInfo.username %></td></tr>
-          <tr><td>邮箱</td><td><input type="text" name="email" id="email" value=<%= editInfo.email %> /></td></tr>
+          <tr><td>邮箱</td><td><input type="text" name="email" id="email" value="<%= editInfo.email %>"/></td></tr>
           <tr><td>注册时间</td><td><%= editInfo.regtime %></td></tr>
           <tr><td>权限</td><td><input type="text" name="role" id="role" value="<%= editInfo.role %>" /></td></tr>
+          <tr><td>邮箱验证</td><td>
+          <% if(editInfo.emailchecktype == 0) {%>
+            邮箱已验证
+          <% } else {%>
+            邮箱未验证
+          <% } %>
+          </td></tr>
           <tr><td>登录失败次数</td><td><%= editInfo.lognum %></td></tr>
           <tr><td>登录失败时间</td><td><%= editInfo.logtime %></td></tr>   
           <tr><td colspan="2"><input type="submit" value="确认修改" /></td></tr>
