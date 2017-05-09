@@ -55,7 +55,7 @@
     </div>
     <hr />
     <div>
-      <form action = "/<%= editInfo.uid %>/password" method="post"> 
+      <form action = "/users/<%= editInfo.uid %>/password" method="post"> 
       <table>
           <tr><td>修改密码</td><td><input type="password" name="newpassword" id="newpassword" /></td></tr>
           <tr><td>确认密码</td><td><input type="password" name="repassword" id="repassword" /></td></tr>  
@@ -66,9 +66,9 @@
     </div>
      <hr />
     <div>
-      <input type="button" value="解除封印" onclick="window.location.href='/<%= editInfo.uid %>/deban'" />
-      <input type="button" value="尸鬼封尽" onclick="window.location.href='/<%= editInfo.uid %>/enban'" />
-      <input type="button" value="返回主页" onclick="window.location.href='/'" />
+      <input type="button" value="解除封印" onclick="window.location.href='/users/<%= editInfo.uid %>/deban'" />
+      <input type="button" value="尸鬼封尽" onclick="window.location.href='/users/<%= editInfo.uid %>/enban'" />
+      <input type="button" value="返回主页" onclick="window.location.href='/users/'" />
     </div>
       <% } %>
   </div>

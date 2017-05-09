@@ -17,7 +17,7 @@ module.exports = function (sqlparams, pool, callback) {
                             username: result[0].username,
                             email: result[0].email,
                             regtime: result[0].regtime,
-                            bantime: result[0].bantime,
+                            emailchecktype: result[0].emailchecktype,
                             role: result[0].role
                         })
                     }

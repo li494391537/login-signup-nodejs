@@ -22,6 +22,7 @@ router.get('/', (req, res, next) => {
                 email: result.email,
                 regtime: result.regtime,
                 role: result.role,
+                emailchecktype: result.emailchecktype,
                 message: req.params.message
             }
         })

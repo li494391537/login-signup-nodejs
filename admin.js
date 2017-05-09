@@ -13,6 +13,7 @@ var crypto = require('crypto')
 var checkBanIP = require('./function/checkBanIP')
 
 var index = require('./admin_routes/index')
+var users = require('./admin_routes/users')
 var signin = require('./admin_routes/signin')
 var signout = require('./admin_routes/signout')
 var admin = require('./admin_routes/admin')
@@ -79,7 +80,6 @@ app.use(bodyParser.urlencoded({
 app.use(session({
     'secret': crypto.randomBytes(64).toString('hex'),
     'cookie': {
-        maxAge: 24 * 60 * 60 * 1000
     },
     'resave': false,
     'saveUninitialized': false
@@ -91,6 +91,7 @@ app.use('/', index)
 app.use('/signin', signin)
 app.use('/admin', admin)
 app.use('/signout', signout)
+app.use('/users', users)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -6,53 +6,6 @@
     <%= title %>
   </title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <script type="text/javascript">
-        function checkPw() {
-            var password = document.getElementsByName(oldpassword);
-            var pass1 = document.getElementsByName(newpassword);
-            var pass2 = document.getElementsByName(repassword);
-            checkPassword(password);
-            checkEqual(pass1, pass2);
-        }
-
-        function checkPassWord(password) {
-            var flag = false;
-            if (password != "") {
-                var reg = /^[a-zA-Z0-9_+-=,.~!@#$%^&*]{8,16}$/
-                if (reg.test(password)) {
-                    flag = true
-                }
-            }
-            if (!flag) {
-                alert('新密码格式不对')
-            }
-        }
-
-        function checkEqual(pass1, pass2) {
-            var flag = false;
-            if (pass1 == pass2) {
-                flag = true
-            }
-            if (!flag) {
-                alert('两次密码不同')
-            }
-        }
-
-        function checkEmail(email) {
-            checkEmail = function (email) {
-                var flag = false
-                if (email != "") {
-                    var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]+$/
-                    if (reg.test(email)) {
-                        flag = true
-                    }
-                }
-                if (!flag) {
-                    alert('邮箱格式不对')
-                }
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -75,6 +28,19 @@
     </tr>
     <tr>
       <td>权限</td><td><%= userInfo.role %></td>
+      </tr>
+      <tr>
+      <td>邮箱状态</td>
+      <td>
+         <% if (userInfo.emailchecktype == 0) { %> 
+         邮箱已验证
+         <% } else if (userInfo.emailchecktype == 1) { %>
+         注册邮箱未验证
+         <% } else if (userInfo.emailchecktype == 2) { %>
+         修改邮箱未验证
+         <% } else { %>
+         <% } %>
+      </td>
     </tr>
   </table>
 
