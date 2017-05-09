@@ -37,6 +37,7 @@ router.get('/:uid', (req, res, next) => {
                         'role': result.role,
                         'lognum': result.lognum,
                         'logtime': result.logtime,
+                        'emailchecktype': result.emailchecktype
                     },
                     'message' : req.params.message
                 })
