@@ -8,6 +8,7 @@ var showUserInfo = new function () {
                 conn.query(sql, sqlparams, (err, result) => {
                     if (err) {
                         console.log('[select error] : ' + err.message)
+                        callback(null)
                     } else {
                         if (result.length) {
                             callback({
@@ -15,9 +16,12 @@ var showUserInfo = new function () {
                                 'username': result[0].username,
                                 'email': result[0].email,
                                 'regtime': result[0].regtime,
-                                'bantime': result[0].bantime,
+                                'lognum': result[0].lognum,
+                                'logtime': result[0].logtime,
                                 'role': result[0].role
                             })
+                        } else {
+                            callback({})
                         }
                     }
                     conn.release()
@@ -31,15 +35,12 @@ var showUserInfo = new function () {
             if (err) {
                 console.log('[pool error] : ' + err.message)
             } else {
-                var sql = 'SELECT uid, username, email, regtime, bantime, lognum, logtime, role FROM users;'
+                var sql = 'SELECT uid, username, email, regtime, lognum, logtime, role FROM users;'
                 conn.query(sql, (err, result) => {
                     if (err) {
                         console.log('[select error] : ' + err.message)
-                    } else {
-                        if (result.length) {
-                            callback(result)
-                        }
                     }
+                    callback(result)
                     conn.release()
                 })
             }

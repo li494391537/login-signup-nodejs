@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>MoBaiJuLao</title>
+  <title>Sign in, Sign up and Authority Management System</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
@@ -24,10 +24,9 @@
             <th>用户名</th>
             <th>邮箱</th>
             <th>注册时间</th>
-            <th>禁止时间</th>
             <th>权限</th>
-            <th>登录次数</th>
-            <th>登录时间</th>
+            <th>登录失败次数</th>
+            <th>登录失败时间</th>
             <th>修改权限点击</th>
             <% for(var i = 0;i < userinfos.length; i++){ %>
               <tr>
@@ -44,9 +43,6 @@
                   <%= userinfos[i].regtime %>
                 </td>
                 <td>
-                  <%= userinfos[i].bantime %>
-                </td>
-                <td>
                   <%= userinfos[i].role %>
                 </td>
                 <td>
@@ -55,7 +51,7 @@
                 <td>
                   <%= userinfos[i].logtime %>
                 </td>
-                <td><a href="/" + <%= userinfos[i].uid %>>edit</a></td>
+                <td><a href="/<%= userinfos[i].uid %>">edit</a></td>
               </tr>
               <% } %>
           </table>

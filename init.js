@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var mysql = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'toor',
+    password: 'root',
     database: 'test',
     port: '3306'
 });

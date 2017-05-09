@@ -21,11 +21,10 @@ router.post((req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-    showUserInfo([req.session.uid], req.pool, (result) => {
-        res.render('user', {
-            'title': req.session.userName + '的个人信息',
+    showUserInfo.showUserInfoByID([req.session.uid], req.pool, (result) => {
+        res.render('admin', {
+            'isLogin': req.session.isLogin,
             'userInfo': {
-                'isLogin': req.session.isLogin,
                 'username': result.username,
                 'email': result.email,
                 'regtime': result.regtime,
