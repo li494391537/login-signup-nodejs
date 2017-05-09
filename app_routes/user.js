@@ -3,26 +3,14 @@ var showUserInfo = require('../app_database/dbShowUserInfo')
 var updateUserInfo = require('../app_database/dbUpdateUserInfo')
 var signin = require('../app_database/dbSignin')
 var tools = require('../function/tools')
+var checkLogin = require('../function/checkLogin')
+
 
 var express = require('express')
 var router = express.Router()
 
-router.get('/', (req, res, next) => {
-    if (req.session.isLogin) {
-        next('route')
-    } else {
-        res.redirect('/signin');
-    }
-})
-
-router.post((req, res, next) => {
-    if (req.session.isLogin) {
-        next('route')
-    } else {
-        req.checkBanIP()
-        res.redirect('/signin');
-    }
-})
+// 检查是否登陆
+router.use(checkLogin)
 
 router.get('/', (req, res, next) => {
     showUserInfo([req.session.uid], req.pool, (result) => {

@@ -1,14 +1,9 @@
+var checkLogin = require('../function/checkLogin')
 var express = require('express')
 
 var router = express.Router()
 
-router.use((req, res, next) => {
-    if (req.session.isLogin) {
-        next('route')
-    } else {
-        res.redirect('/signin')
-    }
-})
+router.use(checkLogin)
 
 router.use('/:id', (req, res, next) => {
     if (req.params.id == 1) {
