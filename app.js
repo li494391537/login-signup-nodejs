@@ -19,6 +19,7 @@ var signup = require('./app_routes/signup')
 var signout = require('./app_routes/signout')
 var user = require('./app_routes/user')
 var power = require('./app_routes/power')
+var check = require('./app_routes/check')
 var app = express()
 
 var banIP = new Array();
@@ -97,6 +98,7 @@ app.use('/signup', signup)
 app.use('/signout', signout)
 app.use('/user', user)
 app.use('/power', power)
+app.use('/check', check)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

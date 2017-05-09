@@ -87,8 +87,8 @@ var updateUserInfo = new function () {
                 console.log('[pool error] : ' + err.message)
                 callback(null)
             } else {
-                var sql = 'UPDATE users SET emailchecktype=? WHERE uid=?'
-                conn.query(sql, sqlparams, (err, result) => {
+                var sql = 'UPDATE users SET emailchecktype=?, emailcheck=? WHERE emailcheck=?'
+                conn.query(sql, [sqlparams[0], null, sqlparams[1]], (err, result) => {
                     conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)

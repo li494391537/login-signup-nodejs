@@ -24,7 +24,7 @@ var banIP = new Array();
 var pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
-    password: 'root',
+    password: 'toor',
     database: 'test',
     port: '3306'
 })
