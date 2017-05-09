@@ -1,3 +1,5 @@
+var crypto = require('crypto')
+
 var updateUserInfo = new function () {
     this.updateUserInfo = function (sqlparams, pool, callback) {
         pool.getConnection((err, conn) => {
