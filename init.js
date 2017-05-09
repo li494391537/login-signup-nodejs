@@ -57,6 +57,7 @@ var mysql = mysql.createConnection({
 
             var sql = 'DROP TABLE users;';
             mysql.query(sql, (err, result) => {
+<<<<<<< HEAD
                 var sql = 'CREATE TABLE users(uid int primary key auto_increment,username varchar(40) unique not null,password varchar(64) not null,salt1 varchar(64) not null,salt2 varchar(64) not null,email varchar(40) unique not null,regtime varchar(40) not null,lognum tinyint,logtime bigint,emailcheck varchar(128),emailchecktime bigint,emailchecktype tinyint not null default 0,role tinyint not null default 0);';
                 mysql.query(sql, (err, result) => {
                     var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime, role) VALUES (?, ?, ?, ?, ?, ?, ?);';
@@ -64,6 +65,18 @@ var mysql = mysql.createConnection({
                     mysql.query(sql, sqlparams, (err, result) => {
                         for (var i = 1; i < 20; i++) {
                             var sqlparams = ['test' + i, dd, salt1, salt2, 'test' + i + '@test.local', regtime, i];
+=======
+                if (err) {
+                    console.log('[select error] : ' + err.message);
+                } else {
+                    var sql = 'CREATE TABLE users(uid int primary key auto_increment,username varchar(40) unique not null,password varchar(64) not null,salt1 varchar(64) not null,salt2 varchar(64) not null,email varchar(40) unique not null,regtime varchar(40) not null,lognum tinyint,logtime bigint,emailcheck varchar(128),emailchecktime bigint,emailchecktype tinyint not null default 0,role tinyint not null default 0);';
+                    mysql.query(sql, (err, result) => {
+                        if (err) {
+                            console.log('[select error] : ' + err.message);
+                        } else {
+                            var sql = 'INSERT INTO users (username, password, salt1, salt2, email, regtime, role) VALUES (?, ?, ?, ?, ?, ?, ?);';
+                            var sqlparams = ['admin', dd, salt1, salt2, 'admin@test.local', regtime, 63];
+>>>>>>> d4a74aef2bcd30f1fea9f7e411ee2547d4d6a565
                             mysql.query(sql, sqlparams, (err, result) => {
                                 if (err) {
                                     console.log('[select error] : ' + err.message);

@@ -48,7 +48,7 @@ var updateUserInfo = new function () {
                 callback(null)
             } else {
                 var sql = 'UPDATE users SET email=?, emailcheck=?, emailchecktime=?, emailchecktype=? WHERE uid=?'
-                conn.query(sql, [sqlparams[0], uid.sync(128), (new Date()).getTime(), 2, sqlparams[1]], (err, result) => {
+                conn.query(sql, [sqlparams[0], crypto.randomBytes(64).toString('hex'), (new Date()).getTime(), 2, sqlparams[1]], (err, result) => {
                     conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)
