@@ -10,6 +10,8 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var crypto = require('crypto')
 
+var checkBanIP = require('./function/checkBanIP')
+
 var index = require('./admin_routes/index')
 var signin = require('./admin_routes/signin')
 var signout = require('./admin_routes/signout')
@@ -32,35 +34,6 @@ app.engine('.html', require('ejs').__express)
 app.set('views', path.join(__dirname, 'admin_views'))
 app.set('view engine', 'html')
 
-// uncomment after placing your favicon in /public
-var logDir = path.join(__dirname, 'admin_logs')
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir)
-}
-var accessLogStream = fileStreamRotator.getStream({
-    date_format: 'YYYYMMDD',
-    filename: path.join(logDir, 'log-%DATE%.log'),
-    frequency: 'daily',
-    verbose: true
-})
-
-app.use((req, res, next) => {
-    if (banIP[req.ip.toString] &&
-        banIP[req.ip.toString].logNum > 4) {
-        if ((new Date()).getDate() - banIP[req.ip.toString].logTime < 1000 * 60 * 60 * 6) {
-            res.render('error', {
-                'message': 'IP失败次数过多！',
-                'error': {
-                    'stack': '',
-                    'status': '403'
-                }
-            })
-        }
-    } else {
-        next()
-    }
-})
-
 app.use((req, res, next) => {
     req.banIP = banIP
     req.pool = pool
@@ -79,7 +52,21 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use(checkBanIP)
+
+// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+// 记录日志
+var logDir = path.join(__dirname, 'admin_logs')
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir)
+}
+var accessLogStream = fileStreamRotator.getStream({
+    date_format: 'YYYYMMDD',
+    filename: path.join(logDir, 'log-%DATE%.log'),
+    frequency: 'daily',
+    verbose: true
+})
 app.use(logger('dev'))
 app.use(logger('common', {
     stream: accessLogStream
@@ -100,10 +87,10 @@ app.use(session({
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.use('/', index)
 app.use('/signin', signin)
 app.use('/admin', admin)
 app.use('/signout', signout)
-app.use('/', index)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
