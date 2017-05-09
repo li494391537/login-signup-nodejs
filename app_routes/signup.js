@@ -1,6 +1,6 @@
 var signup = require('../app_database/dbSignup')
 var existsUser = require('../app_database/dbExistsUser')
-var tools = require('../tools/tools')
+var tools = require('../function/tools')
 var express = require('express')
 
 var router = express.Router()
