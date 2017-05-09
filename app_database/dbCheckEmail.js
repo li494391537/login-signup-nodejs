@@ -19,7 +19,7 @@ module.exports = function checkEmail(sqlparams, pool, callback) {
                                 callback(result)
                             })
                         }else {
-                            
+
                         }
                     }
                 }
