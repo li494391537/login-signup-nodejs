@@ -11,10 +11,10 @@ router.use('/:id', (req, res, next) => {
             next('route')
         } else {
             res.render('error', {
-                message: '没有权限',
-                error: {
-                    stack: '',
-                    status: '403'
+                'message': 'Forbidden',
+                'error': {
+                    'stack': '',
+                    'status': '403'
                 }
             })
         }
@@ -23,10 +23,10 @@ router.use('/:id', (req, res, next) => {
             next('route')
         } else {
             res.render('error', {
-                message: '没有权限',
-                error: {
-                    stack: '',
-                    status: '403'
+                'message': 'Forbidden',
+                'error': {
+                    'stack': '',
+                    'status': '403'
                 }
             })
         }
@@ -35,10 +35,10 @@ router.use('/:id', (req, res, next) => {
             next('route')
         } else {
             res.render('error', {
-                message: '没有权限',
-                error: {
-                    stack: '',
-                    status: '403'
+                'message': 'Forbidden',
+                'error': {
+                    'stack': '',
+                    'status': '403'
                 }
             })
         }
@@ -47,7 +47,7 @@ router.use('/:id', (req, res, next) => {
             next('route')
         } else {
             res.render('error', {
-                message: '没有权限',
+                message: 'Forbidden',
                 error: {
                     stack: '',
                     status: '403'

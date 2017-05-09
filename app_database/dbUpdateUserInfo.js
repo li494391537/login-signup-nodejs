@@ -48,7 +48,7 @@ var updateUserInfo = new function () {
                 callback(null)
             } else {
                 var sql = 'UPDATE users SET email=?, emailcheck=?, emailchecktime=?, emailchecktype=? WHERE uid=?'
-                conn.query(sql, [sqlparams[0], uid.sync(128), (new Date()).getTime(), 2], (err, result) => {
+                conn.query(sql, [sqlparams[0], uid.sync(128), (new Date()).getTime(), 2, sqlparams[1]], (err, result) => {
                     conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)
@@ -65,12 +65,14 @@ var updateUserInfo = new function () {
         pool.getConnection((err, conn) => {
             if (err) {
                 console.log('[pool error] : ' + err.message)
+                callback(null)
             } else {
                 var sql = 'UPDATE users SET lognum=?, logtime=? WHERE uid=?'
                 conn.query(sql, sqlparams, (err, result) => {
                     conn.release()
                     if (err) {
                         console.log('[select error] : ' + err.message)
+                        callback(null)
                     } else {
                         callback(result)
                     }
@@ -79,6 +81,24 @@ var updateUserInfo = new function () {
         })
     }
 
-    this.updateUserStat = function ( )
+    this.updateUserStat = function (sqlparams, pool, callback) {
+        pool.getConnection((err, conn) => {
+            if (err) {
+                console.log('[pool error] : ' + err.message)
+                callback(null)
+            } else {
+                var sql = 'UPDATE users SET emailchecktype=? WHERE uid=?'
+                conn.query(sql, sqlparams, (err, result) => {
+                    conn.release()
+                    if (err) {
+                        console.log('[select error] : ' + err.message)
+                        callback(null)
+                    } else {
+                        callback(result)
+                    }
+                })
+            }
+        })
+    }
 }
 module.exports = updateUserInfo
