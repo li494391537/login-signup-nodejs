@@ -3,8 +3,8 @@ var crypto = require('crypto')
 
 var mysql = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'toor',
+    user: process.argv[2],
+    password: process.argv[3],
     database: 'test',
     port: '3306'
 });
