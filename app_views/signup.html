@@ -7,8 +7,8 @@
     <script type="text/javascript">
         function check() {
             var username = document.getElementsByName(username);
-            var password = document.getElementsByName(password);
-            var repassword = document.getElementsByName(repassword);
+            var pass1 = document.getElementsByName(password);
+            var pass2 = document.getElementsByName(repassword);
             var email = document.getElementsByName(email);
             checkUserName(username);
             checkPassword(password);
@@ -38,7 +38,7 @@
                 }
             }
             if (!flag) {
-                alert('新密码格式不对')
+                window.alert('新密码格式不对')
             }
         }
 
@@ -100,7 +100,7 @@
                         <input type="text" name="email" width="10 em" height="1.5 em" placeholder="请输入邮箱" />
                     </div>
                     <div>
-                        <input type="submit" value="login" onclick="check()" />
+                        <input type="submit" value="login" />
                     </div>
         </form>
     </div>
