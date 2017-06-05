@@ -68,6 +68,7 @@ router.use('/:id', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
     res.render('power', {
         'power': req.params.id,
+        'isLogin': req.session.isLogin,
         userInfo: {
             username: req.session.username
         }
