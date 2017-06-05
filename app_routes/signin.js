@@ -29,9 +29,7 @@ router.post('/', (req, res, next) => {
             }
         })
     } else {
-        res.render('signin', {
-            message: '用户名或密码错误！'
-        })
+        res.redirect('/signin')
     }
 })
 

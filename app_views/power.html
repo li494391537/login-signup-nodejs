@@ -5,33 +5,16 @@
   <title>
     Power<%= power %>
   </title>
-  <link rel='stylesheet' href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 
 <body>
-  <!--
-  <div style="text-align:right;">
-      <a href="/user">
-        <%= userInfo.username %>
-      </a>
-      &nbsp;&nbsp;&nbsp;
-      <a href="/signout">
-        注销
-      </a>
-  </div>
 
-  <% if(power == 1) { %>
-  <a href="http://www.baidu.com">baidu</a>
-  <% } else if(power == 2) { %>
-  <a href="http://www.sohu.com">sohu</a>
-  <% } else if(power == 3) { %>
-  <a href="http://www.dilidili.com">di</a>
-  <% } else if(power == 4) { %>
-  <a href="http://www.bilibili.com">bi</a>
-  <% } %>
--->
+      <% if(power == 1) { %>
 
-    <nav class="navbar navbar-default">
+
+      <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">lirui</a>
@@ -41,20 +24,137 @@
             <li>
               <a href="/">Home</a>
             </li>
-            <li id="power1">
+            <li class="active">
               <a href="/power/1">Page 1</a>
             </li>
-            <li id="power2">
+            <li>
               <a href="/power/2">Page 2</a>
             </li>
-            <li id="power3">
+            <li>
               <a href="/power/3">Page 3</a>
             </li>
-            <li id="power4">
+            <li>
               <a href="/power/4">Page 4</a>
             </li>
+          </ul>
+
+          <% if(isLogin) { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Name
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/user">个人信息</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="/signout">注销</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <% } else { %>
+          <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="/about">About</a>
+              <a href="/signin">登陆</a>
+            </li>
+            <li>
+              <a href="/signup">注册</a>
+            </li>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </nav>
+      <div style="text-align:center"><h1><a href="http://www.baidu.com">baidu</a></h1></div>
+
+
+      <% } else if(power == 2) { %>
+
+
+      <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">lirui</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/power/1">Page 1</a>
+            </li>
+            <li class="active">
+              <a href="/power/2">Page 2</a>
+            </li>
+            <li>
+              <a href="/power/3">Page 3</a>
+            </li>
+            <li>
+              <a href="/power/4">Page 4</a>
+            </li>
+          </ul>
+
+          <% if(isLogin) { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Name
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/user">个人信息</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="/signout">注销</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <% } else { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/signin">登陆</a>
+            </li>
+            <li>
+              <a href="/signup">注册</a>
+            </li>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </nav>
+      <div style="text-align:center"><h1><a href="http://www.sohu.com">sohu</a></h1></div>
+
+
+      <% } else if(power == 3) { %>
+
+
+      <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">lirui</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/power/1">Page 1</a>
+            </li>
+            <li>
+              <a href="/power/2">Page 2</a>
+            </li>
+            <li class="active">
+              <a href="/power/3">Page 3</a>
+            </li>
+            <li>
+              <a href="/power/4">Page 4</a>
             </li>
           </ul>
 
@@ -89,27 +189,73 @@
       </div>
     </nav>
 
-      <% if(power == 1) { %>
-      <h1><a href="http://www.baidu.com">baidu</a></h1>
-      <script>
-        document.getElementById('power1').class="active";
-      </script>
-      <% } else if(power == 2) { %>
-      <h1><a href="http://www.sohu.com">sohu</a></h1>
-      <script>
-        document.getElementById('power2').class="active";
-      </script>
-      <% } else if(power == 3) { %>
-      <h1><a href="http://www.dilidili.com">di</a></h1>
-      <script>
-        document.getElementById('power3').class="active";
-      </script>
+      <div style="text-align:center"><h1><a href="http://www.dilidili.com">di</a></h1></div>
+
+
       <% } else if(power == 4) { %>
-      <h1><a href="http://www.bilibili.com">bi</a></h1>
-      <script>
-        document.getElementById('power4').class="active";
-      </script>
+
+      <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">lirui</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/power/1">Page 1</a>
+            </li>
+            <li>
+              <a href="/power/2">Page 2</a>
+            </li>
+            <li>
+              <a href="/power/3">Page 3</a>
+            </li>
+            <li class="active">
+              <a href="/power/4">Page 4</a>
+            </li>
+          </ul>
+
+          <% if(isLogin) { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Name
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/user">个人信息</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="/signout">注销</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <% } else { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/signin">登陆</a>
+            </li>
+            <li>
+              <a href="/signup">注册</a>
+            </li>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </nav>
+
+      <div style="text-align:center"><h1><a href="http://www.bilibili.com">bi</a></h1></div>
+
+
       <% } %>
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>
