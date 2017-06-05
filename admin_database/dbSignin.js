@@ -14,7 +14,7 @@ module.exports = function signin(sqlparams, pool, callback) {
                     callback(null)
                 } else {
                     if (result.length) {
-                        //管理员账号为了安全性无法登陆主页面，只能登陆管理系统
+                        //管理员账号为了安全性无法登录主页面，只能登录管理系统
                         if (!(result[0].role & 32)) {
                             callback({
                                 isLogin: false
