@@ -3,31 +3,73 @@
 
 <head>
   <title>Sign in, Sign up and Authority Management System</title>
-  <link rel='stylesheet' href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 
 <body>
+<nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">lirui</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li class="active">
+              <% if (isLogin) { %>
+                <a href="/users">管理用户列表</a>
+              <% } else { %>
+                <a href="/signin">请登录！</a>
+              <% } %>
+            </li>
+            
+          </ul>
+
+          <% if(isLogin) { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <%= userInfo.username %>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/admin">个人信息</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="/signout">注销</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <% } else { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/signin">登录</a>
+            </li>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </nav>
 
   <% if(isLogin) { %>
-    <div style="text-align:right;">
-      <a href="/admin">
-        <%= userInfo.username %>
-      </a>
-      &nbsp;&nbsp;&nbsp;
-      <a href="/signout">
-        注销
-      </a>
+    <div style="text-align:center;">
       <% if(userinfos.length > 0){ %>
-        <div>
-          <table>
-            <th>用户ID</th>
-            <th>用户名</th>
-            <th>邮箱</th>
-            <th>注册时间</th>
-            <th>权限</th>
-            <th>登录失败次数</th>
-            <th>登录失败时间</th>
-            <th>修改权限点击</th>
+        <div class="container">
+          <table class="table table-bordered">
+            <th style="text-align:center;">用户ID</th>
+            <th style="text-align:center;">用户名</th>
+            <th style="text-align:center;">邮箱</th>
+            <th style="text-align:center;">注册时间</th>
+            <th style="text-align:center;">权限</th>
+            <th style="text-align:center;">登录失败次数</th>
+            <th style="text-align:center;">登录失败时间</th>
+            <th style="text-align:center;">修改权限点击</th>
             <% for(var i = 0;i < userinfos.length; i++){ %>
               <tr>
                 <td>
@@ -51,7 +93,7 @@
                 <td>
                   <%= userinfos[i].logtime %>
                 </td>
-                <td><a href="/users/<%= userinfos[i].uid %>">edit</a></td>
+                <td><a href="/users/<%= userinfos[i].uid %>" class="btn btn-block">edit</a></td>
               </tr>
               <% } %>
           </table>
@@ -64,7 +106,8 @@
       </div>
       <% } %>
 
-
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 
 <head>
   <title>
-    Sign in, Sign up and Authority Management System
+    Sign in, Sign up and Authority Managemer
   </title>
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -22,17 +22,13 @@
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="/power/1">Page 1</a>
+              <% if (isLogin) { %>
+                <a href="/users">管理用户列表</a>
+              <% } else { %>
+                <a href="/signin">请登录！</a>
+              <% } %>
             </li>
-            <li>
-              <a href="/power/2">Page 2</a>
-            </li>
-            <li>
-              <a href="/power/3">Page 3</a>
-            </li>
-            <li>
-              <a href="/power/4">Page 4</a>
-            </li>
+            
           </ul>
 
           <% if(isLogin) { %>
@@ -56,10 +52,7 @@
           <% } else { %>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="/signin">登陆</a>
-            </li>
-            <li>
-              <a href="/signup">注册</a>
+              <a href="/signin">登录</a>
             </li>
           </ul>
           <% } %>
@@ -71,17 +64,10 @@
       <div class="theme-showcase" role="main">
         <div class="jumbotron">
           <h1>
-            登陆&注册&权限管理员
+            登录&注册&权限管理员
           </h1>
           <p>
             Sign in, Sign up and Authority Manager
-          </p>
-            <p>
-              <% if (isLogin) { %>
-                <a href="/users">管理用户列表</a>
-              <% } else { %>
-                请登陆！
-              <% } %>
           </p>
         </div>
       </div>
