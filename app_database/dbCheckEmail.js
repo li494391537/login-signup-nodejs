@@ -14,12 +14,11 @@ module.exports = function checkEmail(sqlparams, pool, callback) {
                 } else {
                     if (result[0].emailchecktype == 1) {
                         if ((new Date()).getTime() - result[0].emailchecktime < 1000 * 60 * 60 * 6) {
-                            updateUserInfo.updateUserStat([0, result[0].uid], req.pool, (result) => {
+                            updateUserInfo.updateUserStat([0, result[0].uid], req.app.pool, (result) => {
                                 conn.release()
                                 callback(result)
                             })
                         }else {
-
                         }
                     }
                 }

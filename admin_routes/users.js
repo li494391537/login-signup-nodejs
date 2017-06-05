@@ -9,7 +9,7 @@ var router = express.Router()
 router.use(checkLogin);
 
 router.get('/', (req, res, next) => {
-    showUserInfo.showAllUserInfo([], req.pool, (result) => {
+    showUserInfo.showAllUserInfo([], req.app.pool, (result) => {
         res.render('users', {
             'isLogin': true,
             'userInfo': {
@@ -21,9 +21,9 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:uid', (req, res, next) => {
-    existsUser([req.params.uid], req.pool, (result) => {
+    existsUser([req.params.uid], req.app.pool, (result) => {
         if (result) {
-            showUserInfo.showUserInfoByID(req.params.uid, req.pool, (result) => {
+            showUserInfo.showUserInfoByID(req.params.uid, req.app.pool, (result) => {
                 res.render('updateUserInfo', {
                     'isLogin': req.session.isLogin,
                     'userInfo': {
@@ -43,19 +43,19 @@ router.get('/:uid', (req, res, next) => {
                 })
             })
         } else {
-            next('route')
+            next()
         }
     })
 })
 
 router.post('/:uid', (req, res, next) => {
-    existsUser(req.params.uid, req.pool, (result) => {
+    existsUser(req.params.uid, req.app.pool, (result) => {
         if (result) {
             if (tools.checkEmail(req.body.email) && (req.body.role & 32)) {
                 var email = req.body.email
                 var role = req.body.role
                 var sqlparams = [email, role, req.params.uid]
-                updateUserInfo(sqlparams, req.pool, (result) => {
+                updateUserInfo(sqlparams, req.app.pool, (result) => {
                     res.redirect('/users/' + req.params.uid)
                 })
             } else {
@@ -69,17 +69,17 @@ router.post('/:uid', (req, res, next) => {
 })
 
 router.post('/:uid/password', (req, res, next) => {
-    existsUser(req.params.uid, req.pool, (result) => {
+    existsUser(req.params.uid, req.app.pool, (result) => {
         if (result) {
             if(tools.checkPassWord())
             {
                 var password = req.body.newpassword
                 var sqlparams = [password, req.params.uid]
-                updateUserInfo.updateUserPassword(sqlparams, req.pool, (result) => {
-                    res.redirect('/users/' + req.params.uid + '?message="修改成功"')
+                updateUserInfo.updateUserPassword(sqlparams, req.app.pool, (result) => {
+                    res.redirect('/users/' + req.params.uid + '?message=修改成功')
                 })
             } else {
-                res.redirect('/users/' + req.params.req + '?message="修改失败"')
+                res.redirect('/users/' + req.params.req + '?message=修改失败')
             }
         }
         else { 
@@ -88,12 +88,12 @@ router.post('/:uid/password', (req, res, next) => {
     })
 })
 
-router.get('/users/:uid/deban', (req, res, next) => {
-    existsUser(req.params.uid, req.pool, (result) => {
+router.get('/:uid/deban', (req, res, next) => {
+    existsUser(req.params.uid, req.app.pool, (result) => {
         if (result) {
                 var sqlparams = [0, req.params.uid]
-                updateUserInfo.updateUserBanStat(sqlparams, req.pool, (result) => {
-                    res.redirect('/users/' + req.params.uid + '?message="解封成功"')
+                updateUserInfo.updateUserBanStat(sqlparams, req.app.pool, (result) => {
+                    res.redirect('/users/' + req.params.uid + '?message=解封成功')
                 })
         }
         else { 
@@ -102,12 +102,12 @@ router.get('/users/:uid/deban', (req, res, next) => {
     })
 })
 
-router.get('/users/:uid/enban', (req, res, next) => {
-    existsUser(req.params.uid, req.pool, (result) => {
+router.get('/:uid/enban', (req, res, next) => {
+    existsUser(req.params.uid, req.app.pool, (result) => {
         if (result) {
                 var sqlparams = [1, req.params.uid]
-                updateUserInfo.updateUserBanStat(sqlparams, req.pool, (result) => {
-                    res.redirect('/users/' + req.params.uid + '?message="封印成功"')
+                updateUserInfo.updateUserBanStat(sqlparams, req.app.pool, (result) => {
+                    res.redirect('/users/' + req.params.uid + '?message=封印成功')
                 })
         }
         else { 

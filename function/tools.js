@@ -10,7 +10,7 @@ var tools = new function () {
         return flag
     }
     this.checkPassWord= function (password) {
-        var flag = false;
+        var flag = false
         if (password != "") {
             var reg = /^[a-zA-Z0-9_+-=,.~!@#$%^&*]{8,16}$/
             if (reg.test(password)) {

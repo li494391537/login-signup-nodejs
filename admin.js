@@ -10,7 +10,7 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var crypto = require('crypto')
 
-var checkBanIP = require('./function/checkBanIP')
+var banIPHandle = require('./function/banIPHandle')
 
 var index = require('./admin_routes/index')
 var users = require('./admin_routes/users')
@@ -20,9 +20,9 @@ var admin = require('./admin_routes/admin')
 
 var app = express()
 
-var banIP = new Array();
+app.banIP = new Array();
 
-var pool = mysql.createPool({
+app.pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
     password: 'toor',
@@ -35,25 +35,7 @@ app.engine('.html', require('ejs').__express)
 app.set('views', path.join(__dirname, 'admin_views'))
 app.set('view engine', 'html')
 
-app.use((req, res, next) => {
-    req.banIP = banIP
-    req.pool = pool
-    req.checkBanIP = function () {
-        if (req.banIP[req.ip.toString] &&
-            (new Date()).getTime() - req.banIP[req.ip.toString].logTime < 1000 * 60 * 5) {
-            req.banIP[req.ip.toString].logNum += 1
-            req.banIP[req.ip.toString].logTime = (new Date()).getTime()
-        } else {
-            req.banIP[req.ip.toString] = {
-                'logNum': 1,
-                'logTime': (new Date()).getTime()
-            }
-        }
-    }
-    next()
-})
-
-app.use(checkBanIP)
+app.use(banIPHandle.checkBanIP)
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
@@ -85,13 +67,13 @@ app.use(session({
     'saveUninitialized': false
 }));
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/static', express.static(path.join(__dirname, 'public')))
 
-app.use('/', index)
 app.use('/signin', signin)
 app.use('/admin', admin)
 app.use('/signout', signout)
 app.use('/users', users)
+app.use('/', index)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

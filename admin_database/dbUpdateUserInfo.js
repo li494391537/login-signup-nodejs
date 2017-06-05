@@ -4,12 +4,14 @@ var updateUserInfo = new function () {
     this.updateUserInfo = function (sqlparams, pool, callback) {
         pool.getConnection((err, conn) => {
             if (err) {
-                console.log('[pool error] : ' + err.message);
+                console.log('[pool error] : ' + err.message)
+                callback(null)
             } else {
-                var sql = 'UPDATE users SET email=?, role=? WHERE uid=?'
+                var sql = 'UPDATE users SET email=?, role=? WHERE uid=?;'
                 conn.query(sql, sqlparams, (err, result) => {
                     if (err) {
                         console.log('[select error] : ' + err.message)
+                        callback(null)
                     } else {
                         callback(result)
                     }
@@ -68,6 +70,7 @@ var updateUserInfo = new function () {
                     conn.query(sql, sqlparams, (err, result) => {
                         if (err) {
                             console.log('[select error] : ' + err.message)
+                            callback(null)
                         } else { }
                         callback(result)
                         conn.release()
@@ -78,12 +81,12 @@ var updateUserInfo = new function () {
                     conn.query(sql, sqlparams, (err, result) => {
                         if (err) {
                             console.log('[select error] : ' + err.message)
+                            callback(null)
                         } else { }
                         callback(result)
                         conn.release()
                     })
                 }
-
             }
         })
     }

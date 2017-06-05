@@ -39,18 +39,12 @@ router.post('/', (req, res, next) => {
         res.redirect('/signup?message=' + errcode)
     } else {
         var sqlparams = [username, email]
-        existsUser(sqlparams, req.pool, (result) => {
+        existsUser(sqlparams, req.app.pool, (result) => {
             if (result > 0) {
-                res.render('error', {
-                    message: '用户名或邮箱已被注册！',
-                    error: {
-                        stack: '',
-                        status: ''
-                    }
-                })
+                next(new Error('用户名已存在！'))
             } else {
                 sqlparams = [username, password, email]
-                signup(sqlparams, req.pool, (result) => {
+                signup(sqlparams, req.app.pool, (result) => {
                     if (result != null) {
                         console.log(result)
                     }

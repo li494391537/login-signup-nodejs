@@ -7,7 +7,7 @@ var router = express.Router()
 router.use(checkLogin)
 
 router.get('/', (req, res, next) => {
-    showUserInfo.showUserInfoByID([req.session.uid], req.pool, (result) => {
+    showUserInfo.showUserInfoByID([req.session.uid], req.app.pool, (result) => {
         res.render('admin', {
             'isLogin': req.session.isLogin,
             'userInfo': {

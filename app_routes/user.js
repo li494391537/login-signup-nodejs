@@ -4,7 +4,7 @@ var updateUserInfo = require('../app_database/dbUpdateUserInfo')
 var signin = require('../app_database/dbSignin')
 var tools = require('../function/tools')
 var checkLogin = require('../function/checkLogin')
-
+var banIPHandle = require('../function/banIPHandle')
 
 var express = require('express')
 var router = express.Router()
@@ -13,7 +13,7 @@ var router = express.Router()
 router.use(checkLogin)
 
 router.get('/', (req, res, next) => {
-    showUserInfo([req.session.uid], req.pool, (result) => {
+    showUserInfo([req.session.uid], req.app.pool, (result) => {
         res.render('user', {
             title: req.session.userName + '的个人信息',
             isLogin: req.session.isLogin,
@@ -31,15 +31,15 @@ router.get('/', (req, res, next) => {
 
 router.post('/password', (req, res, next) => {
     //使用输入的密码尝试登陆
-    signin([req.session.userName, req.body.oldpassword], req.pool, (result) => {
+    signin([req.session.userName, req.body.oldpassword], req.app.pool, (result) => {
         //登陆成功则更改密码
         if (result.isLogin) {
-            updateUserInfo.updatePassword([req.body.newpassword, req.session.uid], req.pool, (result) => {
+            updateUserInfo.updatePassword([req.body.newpassword, req.session.uid], req.app.pool, (result) => {
                 res.redirect('/user?message=1')
             })
         } else {
             //登陆失败记录IP
-            req.checkBanIP()
+            banIPHandle.updateBanIP(req.app.banIP, req.ip.toString())
             res.redirect('/user?message=2') //原密码错误
         }
     })
@@ -47,7 +47,7 @@ router.post('/password', (req, res, next) => {
 
 router.post('/email', (req, res, next) => {
     if (tools.checkEmail(req.body.newemail)) {
-        updateUserInfo.updateEmail([req.body.newemail, req.session.uid], req.pool, (result) => {
+        updateUserInfo.updateEmail([req.body.newemail, req.session.uid], req.app.pool, (result) => {
             if (result != null) {
                 console.log(result)
             }

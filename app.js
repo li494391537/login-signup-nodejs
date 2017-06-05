@@ -10,8 +10,7 @@ var fs = require('fs')
 var fileStreamRotator = require('file-stream-rotator')
 var crypto = require('crypto')
 
-
-var  checkBanIP = require('./function/checkBanIP')
+var banIPHandle = require('./function/banIPHandle')
 
 var index = require('./app_routes/index')
 var signin = require('./app_routes/signin')
@@ -22,9 +21,14 @@ var power = require('./app_routes/power')
 var check = require('./app_routes/check')
 var app = express()
 
-var banIP = new Array();
+// 设置模板引擎
+app.engine('.html', require('ejs').__express)
+app.set('views', path.join(__dirname, 'app_views'))
+app.set('view engine', 'html')
 
-var pool = mysql.createPool({
+app.banIP = new Array()
+
+app.pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
     password: 'toor',
@@ -32,31 +36,7 @@ var pool = mysql.createPool({
     port: '3306'
 })
 
-// 设置模板引擎
-app.engine('.html', require('ejs').__express)
-app.set('views', path.join(__dirname, 'app_views'))
-app.set('view engine', 'html')
-
-
-app.use((req, res, next) => {
-    req.banIP = banIP
-    req.pool = pool
-    req.checkBanIP = function () {
-        if (req.banIP[req.ip.toString] &&
-            (new Date()).getTime() - req.banIP[req.ip.toString].logTime < 1000 * 60 * 5) {
-            req.banIP[req.ip.toString].logNum += 1
-            req.banIP[req.ip.toString].logTime = (new Date()).getTime()
-        } else {
-            req.banIP[req.ip.toString] = {
-                'logNum': 1,
-                'logTime': (new Date()).getTime()
-            }
-        }
-    }
-    next()
-})
-
-app.use(checkBanIP)
+app.use(banIPHandle.checkBanIP)
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
@@ -88,9 +68,10 @@ app.use(session({
     },
     'resave': false,
     'saveUninitialized': false
-}));
+}))
+
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/static', express.static(path.join(__dirname, 'public')))
 
 app.use('/', index)
 app.use('/signin', signin)
