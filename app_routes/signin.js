@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
     var sqlparams = [req.body.username, req.body.password]
     if (tools.checkUserName(sqlparams[0]) && tools.checkPassWord(sqlparams[1])) {
         signin(sqlparams, req.app.pool, (result) => {
-            if (result.isLogin != null && result.isLogin) {
+            if (result && result.isLogin != null) {
                 req.session.isLogin = true
                 req.session.userName = result.username
                 req.session.uid = result.uid
@@ -25,9 +25,7 @@ router.post('/', (req, res, next) => {
             } else {
                 banIPHandle.updateBanIP(req.app.banIP, req.ip.toString())
                 req.session.isLogin = false
-                res.render('signin', {
-                    message: '用户名或密码错误！'
-                })
+                res.redirect('/signin')
             }
         })
     } else {
