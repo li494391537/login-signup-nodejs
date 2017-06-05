@@ -9,7 +9,7 @@ var banIPHandle = require('../function/banIPHandle')
 var express = require('express')
 var router = express.Router()
 
-// 检查是否登陆
+// 检查是否登录
 router.use(checkLogin)
 
 router.get('/', (req, res, next) => {
@@ -30,15 +30,15 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/password', (req, res, next) => {
-    //使用输入的密码尝试登陆
+    //使用输入的密码尝试登录
     signin([req.session.userName, req.body.oldpassword], req.app.pool, (result) => {
-        //登陆成功则更改密码
+        //登录成功则更改密码
         if (result.isLogin) {
             updateUserInfo.updatePassword([req.body.newpassword, req.session.uid], req.app.pool, (result) => {
                 res.redirect('/user?message=1')
             })
         } else {
-            //登陆失败记录IP
+            //登录失败记录IP
             banIPHandle.updateBanIP(req.app.banIP, req.ip.toString())
             res.redirect('/user?message=2') //原密码错误
         }
