@@ -70,8 +70,8 @@ router.get('/:id', (req, res, next) => {
         'power': req.params.id,
         'isLogin': req.session.isLogin,
         userInfo: {
-            username: req.session.username
-        }
+                username: req.session.userName
+            }
     })
 })
 
