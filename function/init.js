@@ -16,14 +16,14 @@ var mysql = mysql.createConnection({
         if (err) {
             console.log(err)
         } else {
-            console.log('drop table sussess')
+            console.log('Drop table sussess')
         }
         var sql = 'CREATE TABLE users(uid int primary key auto_increment,username varchar(40) unique not null,password varchar(64) not null,salt1 varchar(64) not null,salt2 varchar(64) not null,email varchar(40) unique not null,regtime varchar(40) not null,lognum tinyint,logtime bigint,emailcheck varchar(128),emailchecktime bigint,emailchecktype tinyint not null default 0,role tinyint not null default 0);'
         mysql.query(sql, (err, result) => {
             if (err) {
                 console.log(err)
             } else {
-                console.log('create table sussess')
+                console.log('Create table sussess')
             }
             var salt1 = crypto.randomBytes(32).toString('hex')
             var salt2 = crypto.randomBytes(32).toString('hex')
@@ -60,15 +60,23 @@ var mysql = mysql.createConnection({
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log('insert "admin" sussess')
-                    test(1, mysql)
+                    console.log('Insert "admin" sussess')
+
+                    var total = 100;
+                    if (typeof process.argv[4] != 'undefined') {
+                        total = process.argv[4]
+                    } else {}
+
+                    console.log('Start insert ' + total + ' test records:')
+                    test(1, total, mysql)
                 }
             })
         })
     })
 })();
 
-function test(count, mysql) {
+
+function test(count, total, mysql) {
     var salt1 = crypto.randomBytes(32).toString('hex')
     var salt2 = crypto.randomBytes(32).toString('hex')
     var content = 'password' + count
@@ -107,9 +115,10 @@ function test(count, mysql) {
             console.log('Insert user ' + '"' + sqlparams[0] + '"' + ' sussess')
         }
         count++;
-        if (count <= 100) {
-            test(count, mysql)
+        if (count <= total) {
+            test(count, total, mysql)
         } else {
+            console.log('End insert ' + total + ' test records.')
             mysql.end()
         }
     })
