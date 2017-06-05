@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+
+<!--
     <link href="https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap-grid.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap-reboot.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+-->
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <title>
     Sign in, Sign up and Authority Management System
   </title>
 </head>
 
 <body>
-</div>
+  <!--
+  <div style="text-align:right;">
+    <% if(isLogin) { %>
+      <a href="/user">
+        <%= userInfo.username %>
+      </a>
+      &nbsp;&nbsp;&nbsp;
+      <a href="/signout">
+        注销
+      </a>
+      <% } else { %>
+        <a href="/signin">登陆</a> &nbsp;&nbsp;&nbsp; <a href="/signup">注册</a>
+        <%}%>
+  </div>
   <h1>
     Sign in, Sign up and Authority Management System
   </h1>
@@ -32,6 +53,77 @@
       </tr>
     </table>
   </p>
+-->
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">lirui</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/power/1">Page 1</a>
+            </li>
+            <li>
+              <a href="/power/2">Page 2</a>
+            </li>
+            <li>
+              <a href="/power/3">Page 3</a>
+            </li>
+            <li>
+              <a href="/power/4">Page 4</a>
+            </li>
+            <li>
+              <a href="/about">About</a>
+            </li>
+          </ul>
+
+          <% if(isLogin) { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Name
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/user">个人信息</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="/signout">注销</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <% } else { %>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/signin">登陆</a>
+            </li>
+            <li>
+              <a href="/signup">注册</a>
+            </li>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="theme-showcase" role="main">
+        <div class="jumbotron">
+          <h1>
+            登陆&注册&权限管理系统
+          </h1>
+          <p>
+            Sign in, Sign up and Authority Management System
+          </p>
+        </div>
+      </div>
+    </div>
 </body>
 
 </html>
