@@ -51,11 +51,11 @@ router.get('/:uid', (req, res, next) => {
 router.post('/:uid', (req, res, next) => {
     existsUser(req.params.uid, req.app.pool, (result) => {
         if (result) {
-            if (tools.checkEmail(req.body.email) && (req.body.role & 32)) {
+            if (tools.checkEmail(req.body.email) && !(req.body.role & 32)) {
                 var email = req.body.email
                 var role = req.body.role
                 var sqlparams = [email, role, req.params.uid]
-                updateUserInfo(sqlparams, req.app.pool, (result) => {
+                updateUserInfo.updateUserInfo(sqlparams, req.app.pool, (result) => {
                     res.redirect('/users/' + req.params.uid)
                 })
             } else {
