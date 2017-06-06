@@ -48,6 +48,10 @@ router.post('/', (req, res, next) => {
                 signup(sqlparams, req.app.pool, (result) => {
                     if (result != null) {
                         sendEmail(sqlparams[2], 'http://localhost:8866/check/' + result, (err, msg) => {
+                            if(err)
+                            {
+                                console.log(err);
+                            }
                             res.redirect('/signin')
                         })
                     }

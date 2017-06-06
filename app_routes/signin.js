@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
     var sqlparams = [req.body.username, req.body.password]
     if (tools.checkUserName(sqlparams[0]) && tools.checkPassWord(sqlparams[1])) {
         signin(sqlparams, req.app.pool, (result) => {
-            if (result && result.isLogin != null) {
+            if (result && result.isLogin) {
                 req.session.isLogin = true
                 req.session.userName = result.username
                 req.session.uid = result.uid
