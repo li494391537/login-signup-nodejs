@@ -44,15 +44,13 @@ router.post('/', (req, res, next) => {
             if (result > 0) {
                 next(new Error('用户名已存在！'))
             } else {
-                var emailcheck = crypto.randomBytes(64).toString('hex')
-                sqlparams = [username, password, email, emailcheck]
+                sqlparams = [username, password, email]
                 signup(sqlparams, req.app.pool, (result) => {
                     if (result != null) {
-                        console.log(result)
+                        sendEmail(sqlparams[2], 'http://localhost:8866/check/' + result, (err, msg) => {
+                            res.redirect('/signin')
+                        })
                     }
-                    sendEmail(sqlparams[2], 'http://localhost:8866/check/' + sqlparams[3], (err, msg) => {
-                        res.redirect('/signin')
-                    })
                 })
             }
         })
