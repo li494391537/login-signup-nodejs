@@ -2,7 +2,7 @@
 
 ## A node.js project about signin and signup.
 
-```
+``` bash
 
 # 初始化数据库：
 
