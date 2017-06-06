@@ -37,7 +37,7 @@ module.exports = function (sqlparams, pool, callback) {
             (parseInt(time % 60) < 10 ? '0' + parseInt(time % 60) : parseInt(time % 60));
     })()
 
-    sqlparams = [sqlparams[0], dd, salt1, salt2, sqlparams[2], crypto.randomBytes(64).toString('hex'), (new Date()).getTime(), 1, regtime]
+    sqlparams = [sqlparams[0], dd, salt1, salt2, sqlparams[2], sqlparams[3], (new Date()).getTime(), 1, regtime]
     var sql = 'INSERT INTO users (username, password, salt1, salt2, email, emailcheck, emailchecktime, emailchecktype, regtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     pool.getConnection((err, connection) => {
         if (err) {

@@ -2,6 +2,7 @@ var signup = require('../app_database/dbSignup')
 var existsUser = require('../app_database/dbExistsUser')
 var tools = require('../function/tools')
 var sendEmail = require('../function/sendEmail')
+var crypto = require('crypto')
 var express = require('express')
 
 var router = express.Router()
@@ -43,12 +44,15 @@ router.post('/', (req, res, next) => {
             if (result > 0) {
                 next(new Error('用户名已存在！'))
             } else {
-                sqlparams = [username, password, email]
+                var emailcheck = crypto.randomBytes(64).toString('hex')
+                sqlparams = [username, password, email, emailcheck]
                 signup(sqlparams, req.app.pool, (result) => {
                     if (result != null) {
                         console.log(result)
                     }
-                    res.redirect('/signin')
+                    sendEmail(sqlparams[2], 'http://localhost:8866/check/' + sqlparams[3], (err, msg) => {
+                        res.redirect('/signin')
+                    })
                 })
             }
         })
