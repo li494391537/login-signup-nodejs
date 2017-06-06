@@ -2,6 +2,7 @@ var signup = require('../app_database/dbSignup')
 var existsUser = require('../app_database/dbExistsUser')
 var tools = require('../function/tools')
 var sendEmail = require('../function/sendEmail')
+var crypto = require('crypto')
 var express = require('express')
 
 var router = express.Router()
@@ -46,9 +47,10 @@ router.post('/', (req, res, next) => {
                 sqlparams = [username, password, email]
                 signup(sqlparams, req.app.pool, (result) => {
                     if (result != null) {
-                        console.log(result)
+                        sendEmail(sqlparams[2], 'http://localhost:8866/check/' + result, (err, msg) => {
+                            res.redirect('/signin')
+                        })
                     }
-                    res.redirect('/signin')
                 })
             }
         })
